@@ -1,12 +1,25 @@
+import typing
+
+
 class WorkerPool(object):
     """Base class for a worker pool that is created from a WorkerPoolManager class."""
     def __init__(self, id: str, host: str):
         self.id = id
         self.host = host
 
-    @property
-    def available_container_units(self) -> int:
+    def container_units(self) -> typing.Tuple[int, int, int]:
+        """Returns the number of container units that are available, in-use,
+        and total for the pool.
+        
+        :returns: A tuple containing available, in-use and total container units.
+        """
         raise NotImplementedError()
+
+    def __repr__(self):
+        return f'<{type(self).__name__} id={self.id} host={self.host}>'
+
+    def __str__(self):
+        return self.__repr__()
 
 
 class WorkerPoolManager(object):
@@ -20,27 +33,32 @@ class WorkerPoolManager(object):
         self.id = id
         self.pool_size = pool_size
         self.pools = []
-        
-    @property
-    def maximum_container_units(self) -> int:
-        return len(self.pools) * self.pool_size
-        
-    @property
-    def available_container_units(self) -> int:
-        return sum([p.available_container_units for p in self.pools])
+
+    def container_units(self) -> typing.Tuple[int, int, int]:
+        available = 0
+        in_use = 0
+        total = 0
+
+        for pool in self.pools:
+            a, i, t = pool.container_units
+            available += a
+            in_use += i
+            total += t
+
+        return available, in_use, total
 
     def allocate_pool(self) -> WorkerPool:
         raise NotImplementedError()
-        
+
     def deallocate_pool(self, pool_id: str):
         raise NotImplementedError()
         
     def refresh_pools(self):
         raise NotImplementedError()
-        
+
     def __repr__(self):
         return f'<{type(self).__name__} id=\'{self.id}\' workers={self.pools * self.pool_size}>'
-        
+
     def __str__(self):
         return self.__repr__()
 
