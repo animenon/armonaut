@@ -1,7 +1,8 @@
+import datetime
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer, Datetime
 
 
 db = SQLAlchemy()
@@ -9,6 +10,7 @@ db = SQLAlchemy()
 
 class BaseModel(db.Model):
     id = Column(Integer, primary_key=True)
+    create_time = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
 
 
 def create_app():
