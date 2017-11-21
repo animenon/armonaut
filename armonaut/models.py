@@ -15,6 +15,9 @@ class Project(BaseModel):
     default_branch = Column(String, nullable=False, default='master')
     private = Column(Boolean, nullable=False)
     secret_env = Column(String, default=None)
+    
+    deploy_branch = Column(String, default='master')
+    deploy_on = Column(String, default='tag')  # Options: tag, success, never
 
     builds = relationship('Build', back_populates='project')
 
@@ -26,11 +29,12 @@ class Build(BaseModel):
                         default=datetime.datetime.utcnow)
     end_time = Column(DateTime, default=None)
 
-    # HEAD Commit
+    # HEAD/Merge Commit
     commit_branch = Column(String, nullable=False)
     commit_sha = Column(String, nullable=False)
     commit_author = Column(String, nullable=False)
     commit_url = Column(String, nullable=False)
+    commit_tag = Column(String, default=None)
 
     # Pull Request
     pull_request_number = Column(Integer, default=None)
@@ -45,6 +49,10 @@ class Build(BaseModel):
     after_success = Column(String, default=None)
     after_failure = Column(String, default=None)
     after_script = Column(String, default=None)
+    deploy = Column(String, default=None)
+    
+    # Scheduling
+    run_deploy = Column(Boolean, default=False, nullable=False)  # Only one job per build runs deploy.
     
     project = relationship('Project', back_populates='builds')
     project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
