@@ -52,16 +52,14 @@ class Build(BaseModel):
 
     @property
     def duration(self) -> float:
-        end_time = self.end_time
-        if end_time is None:
-            end_time = datetime.datetime.utcnow()
-        return (end_time - self.start_time).total_seconds()
+        """Returns the sum of all jobs that have started executing."""
+        return sum([j.duration for j in self.jobs if j.start_time is not None])
 
 
 class Job(BaseModel):
     __tablename__ = 'jobs'
 
-    start_time = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
+    start_time = Column(DateTime, default=None)
     end_time = Column(DateTime, default=None)
     
     env = Column(String, default=None)
@@ -71,11 +69,24 @@ class Job(BaseModel):
     build_id = Column(Integer, ForeignKey('builds.id'), nullable=False)
 
     @property
-    def duration(self) -> float:
+    def duration(self) -> typing.Union[None, float]:
+        """Returns None if the job hasn't started yet, otherwise
+        returns the number of seconds that the job has been running.
+        """
+        if self.start_time is None:
+            return None
         end_time = self.end_time
         if end_time is None:
             end_time = datetime.datetime.utcnow()
         return (end_time - self.start_time).total_seconds()
+    
+    @property
+    def queue_time(self) -> float:
+        """Returns the number of seconds that this job has been in the queue."""
+        start_time = self.start_time
+        if self.start_time is None:
+            self.start_time = datetime.datetime.utcnow()
+        return (start_time - self.create_time).total_seconds()
     
     def resolve_env(self) -> typing.Dict[str, str]:
         """Resolves all values for this job's environment variables
