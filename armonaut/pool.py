@@ -29,10 +29,11 @@ class WorkerPoolManager(object):
     worker pools and are used to figure out which worker pools can be allocated
     or deallocated in order to accomodate for a growing queue or to save money.
     """
-    def __init__(self, id: str, pool_size: int):
+    def __init__(self, id: str, pool_size: int, max_pools):
         self.id = id
         self.pool_size = pool_size
         self.pools = []
+        self.max_pools = max_pools
 
     def container_units(self) -> typing.Tuple[int, int, int]:
         available = 0
@@ -63,16 +64,21 @@ class WorkerPoolManager(object):
         return self.__repr__()
 
 
-class ScalewayC2mPoolManager(WorkerPoolManager):
+class C2MPoolManager(WorkerPoolManager):
     def __init__(self):
-        super(ScalewayC2mPoolManager, self).__init__('scaleway-c2m', 8)
+        super(C2MPoolManager, self).__init__('C2M', 8, 5)
 
 
-class ScalewayC2sPoolManager(WorkerPoolManager):
+class C2SPoolManager(WorkerPoolManager):
     def __init__(self):
-        super(ScalewayC2sPoolManager, self).__init__('scaleway-c2s', 4)
-        
-        
-class Ec2C4xlargePoolManager(WorkerPoolManager):
+        super(C2SPoolManager, self).__init__('C2S', 4, 10)
+
+
+class VC1LPoolManager(WorkerPoolManager):
     def __init__(self):
-        super(Ec2C4xlargePoolManager, self).__init__('ec2-c4.xlarge', 4)
+        super(VC1LPoolManager, self).__init__('VC1L', 3, 10)
+
+
+class VC1MPoolManager(WorkerPoolManager):
+    def __init__(self):
+        super(VC1MPoolManager, self).__init__('VC1M', 2, 25)
