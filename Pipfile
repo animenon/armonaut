@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+
+flask = "*"
+sqlalchemy = "*"
+"flask-sqlalchemy" = "*"
+
+
+[dev-packages]
+
+"flake8" = "*"
+pytest = "*"
+"pytest-cov" = "*"
+coverage = "*"
+tox = "*"
+"pytest-mock" = "*"

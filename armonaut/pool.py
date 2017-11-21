@@ -40,7 +40,7 @@ class WorkerPoolManager(object):
         total = 0
 
         for pool in self.pools:
-            a, i, t = pool.container_units
+            a, i, t = pool.container_units()
             available += a
             in_use += i
             total += t
@@ -52,7 +52,7 @@ class WorkerPoolManager(object):
 
     def deallocate_pool(self, pool_id: str):
         raise NotImplementedError()
-        
+
     def refresh_pools(self):
         raise NotImplementedError()
 
@@ -65,12 +65,12 @@ class WorkerPoolManager(object):
 
 class ScalewayC2mPoolManager(WorkerPoolManager):
     def __init__(self):
-        super(ScalewayC2MPoolManager, self).__init__('scaleway-c2m', 8)
+        super(ScalewayC2mPoolManager, self).__init__('scaleway-c2m', 8)
 
 
 class ScalewayC2sPoolManager(WorkerPoolManager):
     def __init__(self):
-        super(ScalewayC2SPoolManager, self).__init__('scaleway-c2s', 4)
+        super(ScalewayC2sPoolManager, self).__init__('scaleway-c2s', 4)
         
         
 class Ec2C4xlargePoolManager(WorkerPoolManager):
