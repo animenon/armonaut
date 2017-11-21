@@ -71,6 +71,7 @@ class Job(BaseModel):
     end_time = Column(DateTime, default=None)
     
     env = Column(String, default=None)
+    container_id = Column(String(4), default=None)  # C2M, C2S, VC1L, or VC1M
     container_units = Column(SmallInteger, default=1, nullable=False)
 
     build = relationship('Build', back_populates='jobs')
