@@ -8,6 +8,8 @@ name = "pypi"
 flask = "*"
 sqlalchemy = "*"
 "flask-sqlalchemy" = "*"
+"flask-limiter" = "*"
+"flask-login" = "*"
 
 
 [dev-packages]
@@ -18,3 +20,4 @@ pytest = "*"
 coverage = "*"
 tox = "*"
 "pytest-mock" = "*"
+"pytest-flask" = "*"

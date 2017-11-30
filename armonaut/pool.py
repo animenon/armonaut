@@ -1,22 +1,39 @@
+import os
+import paramiko
 import typing
+import requests
+import uuid
+
+
+SCALEWAY_REGIONS = ['par1', 'ams1']
+SCALEWAY_SERVER_TYPES = ['C2M', 'C2S', 'VC1L', 'VC1M', 'VC1S']
 
 
 class WorkerPool(object):
     """Base class for a worker pool that is created from a WorkerPoolManager class."""
-    def __init__(self, id: str, host: str):
+    def __init__(self, region: str, server_type: str, id: str):
+        self.region = region
+        self.server_type = server_type
         self.id = id
-        self.host = host
 
-    def container_units(self) -> typing.Tuple[int, int, int]:
-        """Returns the number of container units that are available, in-use,
-        and total for the pool.
-        
-        :returns: A tuple containing available, in-use and total container units.
-        """
-        raise NotImplementedError()
+    def power_on(self):
+        return self._action('poweron')
+
+    def power_off(self):
+        return self._action('poweroff')
+
+    def restart(self):
+        return self._action('restart')
+
+    def _action(self, action):
+        with requests.post(f'https://cp-{self.region}.scaleway.com/servers/{self.id}/action',
+                           json={'action': action}) as r:
+            if r.status_code == 202:
+                return True
+        return False
 
     def __repr__(self):
-        return f'<{type(self).__name__} id={self.id} host={self.host}>'
+        return f'<{type(self).__name__} region={self.region} server_type={self.server_type} id={self.id}>'
 
     def __str__(self):
         return self.__repr__()
@@ -29,56 +46,45 @@ class WorkerPoolManager(object):
     worker pools and are used to figure out which worker pools can be allocated
     or deallocated in order to accomodate for a growing queue or to save money.
     """
-    def __init__(self, id: str, pool_size: int, max_pools):
+    def __init__(self, id: str):
         self.id = id
-        self.pool_size = pool_size
         self.pools = []
-        self.max_pools = max_pools
 
-    def container_units(self) -> typing.Tuple[int, int, int]:
-        available = 0
-        in_use = 0
-        total = 0
+    def allocate_pool(self):
+        for server_type in SCALEWAY_SERVER_TYPES:
+            for region in SCALEWAY_REGIONS:
+                try:
+                    with requests.post(f'https://cp-{region}.scaleway.com/servers',
+                                       headers={'X-Auth-Token': os.environ['SCALEWAY_API_SECRET']},
+                                       json={'organization': os.environ['SCALEWAY_ORGANIZATION_ID'],
+                                             'name': uuid.uuid4().hex,
+                                             'image': 'c1d407de-0d4c-462c-95df-42a2fe0479fe',  # Debian Stretch (9)
+                                             'commercial_type': server_type,
+                                             'enable_ipv6': True,
+                                             'tags': ['armonaut']}) as r:
 
-        for pool in self.pools:
-            a, i, t = pool.container_units()
-            available += a
-            in_use += i
-            total += t
+                        # Our pool started running,
+                        if r.status_code == 201:
+                            server = r.json()
 
-        return available, in_use, total
 
-    def allocate_pool(self) -> WorkerPool:
-        raise NotImplementedError()
+                except Exception:
+                    pass
 
-    def deallocate_pool(self, pool_id: str):
-        raise NotImplementedError()
+
+    def deallocate_pool(self):
+        self.refresh_pools()
+        for pool in sorted(self.pools, key=lambda p: (SCALEWAY_SERVER_TYPES.index(p.server_type))):
+            with requests.delete(f'https://cp-{pool.region}.scaleway.com/servers/{pool.id}',
+                                 headers={'X-Auth-Token': os.environ['SCALEWAY_API_TOKEN']}) as r:
+                if r.status_code == 204:
+                    break
 
     def refresh_pools(self):
         raise NotImplementedError()
 
     def __repr__(self):
-        return f'<{type(self).__name__} id=\'{self.id}\' workers={self.pools * self.pool_size}>'
+        return f'<{type(self).__name__} id=\'{self.id}\'>'
 
     def __str__(self):
         return self.__repr__()
-
-
-class C2MPoolManager(WorkerPoolManager):
-    def __init__(self):
-        super(C2MPoolManager, self).__init__('C2M', 8, 5)
-
-
-class C2SPoolManager(WorkerPoolManager):
-    def __init__(self):
-        super(C2SPoolManager, self).__init__('C2S', 4, 10)
-
-
-class VC1LPoolManager(WorkerPoolManager):
-    def __init__(self):
-        super(VC1LPoolManager, self).__init__('VC1L', 3, 10)
-
-
-class VC1MPoolManager(WorkerPoolManager):
-    def __init__(self):
-        super(VC1MPoolManager, self).__init__('VC1M', 2, 25)

@@ -1,0 +1,13 @@
+coverage:
+  precision: 2
+  round: down
+  range: 80...90
+
+  status:
+    patch:
+      target: 80%
+      if_not_found: error
+
+comment:
+  layout: "header, diff, changes"
+  behavior: new

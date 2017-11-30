@@ -1,16 +1,27 @@
-sudo: false
+sudo: required
 language: python
 
-matrix:
-  include:
-    - python: 3.6
-      env: TOXENV=lint
-    - python: 3.6
-      env: TOXENV=py36
-    - python: 3.7-dev
-      env: TOXENV=py37
-    - python: nightly
-      env: TOXENV=py37
+services:
+  - redis-server
+  - postgresql
+
+env:
+  - APP_SETTINGS=config.ProductionConfig
+  - DATABASE_URL=postgres://postgres:@localhost:5432/armonaut
+  - REDIS_URL=redis://localhost:6379/0
+
+cache:
+  - pip
+  - directories:
+    - ${HOME}/.cache
+
+python:
+  - 3.6
+  - 3.7-dev
+  - nightly
+
+before_install:
+  - psql -c 'create database armonaut;' -U postgres
 
 install:
   - python -m pip install pipenv
@@ -18,4 +29,11 @@ install:
   - pipenv install --dev
 
 script:
-  - tox
+  - pytest --cov armonaut/ tests/
+
+notifications:
+  email: false
+
+branches:
+  only:
+    - master

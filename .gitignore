@@ -102,3 +102,6 @@ ENV/
 
 # JetBrains
 .idea/
+
+# heroku-env.py
+**/setup-env.bat
