@@ -8,6 +8,8 @@ from sqlalchemy.orm import relationship
 import typing
 
 STATUSES = {'queued', 'starting', 'running', 'success', 'failure', 'error', 'canceled'}
+SERVICES = {'postgres', 'mysql', 'redis', 'memcached', 'rabbitmq',
+            'rethinkdb', 'mongodb', 'couchdb', 'cassandra'}
 _UNPACK_DICT_REGEX = re.compile(r'^([^\s=]+)=(.*)$')
 
 
@@ -86,17 +88,17 @@ class Build(BaseModel):
     start_time = Column(DateTime, nullable=False,
                         default=datetime.datetime.utcnow)
     finish_time = Column(DateTime, default=None)
-    number = Column(Integer, nullable=False)
+    number = Column(Integer, nullable=False, index=True)
 
     # HEAD/Merge Commit
-    commit_branch = Column(String, nullable=False)
+    commit_branch = Column(String, nullable=False, index=True)
     commit_sha = Column(String, nullable=False)
     commit_author = Column(String, nullable=False)
     commit_url = Column(String, nullable=False)
     commit_tag = Column(String, default=None)
 
     # Pull Request
-    pull_request_number = Column(Integer, default=None)
+    pull_request_number = Column(Integer, default=None, index=True)
     pull_request_branch = Column(String, default=None)
     pull_request_slug = Column(String, default=None)
     pull_request_url = Column(String, default=None)
@@ -109,6 +111,7 @@ class Build(BaseModel):
     after_failure = Column(String, default=None)
     after_script = Column(String, default=None)
     deploy = Column(String, default=None)
+    services = Column(String, default=None)
     
     # Scheduling
     run_deploy = Column(Boolean, default=False, nullable=False)  # Only one job per build runs deploy.
@@ -175,9 +178,13 @@ class Job(BaseModel):
     env = Column(String, default=None)
     container_id = Column(String(4), default=None)  # C2M, C2S, VC1L, or VC1M
     container_units = Column(SmallInteger, default=1, nullable=False)
+    
+    # S3 information
+    log_url = Column(String, default=None)
+    log_size = Column(Integer, default=None)
 
     # queued, starting, running, success, failure, error, canceled
-    status = Column(String(8), default='queued', nullable=False)
+    status = Column(String(8), default='queued', nullable=False, index=True)
 
     build = relationship('Build', back_populates='jobs')
     build_id = Column(Integer, ForeignKey('builds.id'), nullable=False)
