@@ -11,11 +11,11 @@ class Config(object):
     SECRET_KEY = os.environ['SECRET_KEY']
 
     # PostgreSQL Config
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'postgres://postgres:@localhost:5432/armonaut')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     # Redis Config
-    REDIS_URL = os.environ.get('REDIS_URL')
+    REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379/0')
 
     # GitHub OAuth Config
     GITHUB_URL = os.environ.get('GITHUB_URL', 'https://github.com').rstrip('/')
@@ -35,9 +35,13 @@ class Config(object):
     GITLAB_OAUTH_ID = os.environ.get('GITLAB_OAUTH_ID')
     GITLAB_OAUTH_SECRET = os.environ.get('GITLAB_OAUTH_SECRET')
 
-    # Login config
+    # Flask-Login config
     REMEMBER_COOKIE_HTTPONLY = True
     SESSION_PROTECTION = 'strong'
+
+    # Flask-Limiter config
+    RATELIMIT_STORAGE_URL = REDIS_URL
+    RATELIMIT_STRATEGY = 'fixed-window-elastic-expiry'  # Mitigates burst attacks
 
 
 class ProductionConfig(Config):

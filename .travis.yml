@@ -6,9 +6,7 @@ services:
   - postgresql
 
 env:
-  - APP_SETTINGS=config.ProductionConfig
-  - DATABASE_URL=postgres://postgres:@localhost:5432/armonaut
-  - REDIS_URL=redis://localhost:6379/0
+  - APP_SETTINGS=config.ProductionConfig DATABASE_URL=postgres://postgres:@localhost:5432/armonaut REDIS_URL=redis://localhost:6379/0 SECRET_KEY=notasecret
 
 cache:
   - pip
@@ -30,6 +28,9 @@ install:
 
 script:
   - pytest --cov armonaut/ tests/
+
+after_success:
+  - codecov
 
 notifications:
   email: false

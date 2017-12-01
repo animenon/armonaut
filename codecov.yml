@@ -11,3 +11,14 @@ coverage:
 comment:
   layout: "header, diff, changes"
   behavior: new
+
+coverage:
+  notify:
+    slack:
+      default:
+        url: " https://hooks.slack.com/services/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 "
+        threshold: 1%
+        only_pulls: false
+        branches: null
+        flags: null
+        paths: null

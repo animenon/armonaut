@@ -1,6 +1,6 @@
 import datetime
 import os
-from flask import Flask
+from flask import Flask, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_limiter import Limiter
@@ -38,8 +38,27 @@ def create_app() -> Flask:
     db.init_app(app)
     login.init_app(app)
     limiter.init_app(app)
-
-    from armonaut.api.controllers import api
-    app.register_blueprint(api)
+    
+    set_error_handlers(app)
+    register_blueprints(app)
 
     return app
+
+
+def set_error_handlers(app):
+    """Creates all error handlers for a Flask
+    application created in the factory.
+    """
+    @app.errorhandler(429)
+    def ratelimit_handler(e):
+        response = jsonify(message=f'Rate limit exceeded: {e.description} See '
+                                    'https://armonaut.io/docs/rate-limit for more information')
+        return make_response(response, 429)
+
+    
+def register_blueprints(app):
+    """Registers all Blueprints for a Flask application
+    created in the factory method.
+    """
+    from armonaut.api.controllers import api
+    app.register_blueprint(api)

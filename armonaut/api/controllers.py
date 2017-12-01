@@ -26,8 +26,21 @@ def get_project(host, owner, name):
     return jsonify(project=project_to_json(project))
 
 
+@api.route('/projects/<string:host>/<string:owner>/<string:name>/branches', methods=['GET'])
+def get_project_branches(host, owner, name):
+    project = Project.query.filter(Project.remote_host == host,
+                                   Project.owner == owner,
+                                   Project.name == name).first()
+    if project is None:
+        return jsonify(message='Could not find a project with those parameters'), 404
+    branches = {}
+    for build in Build.query.filter(Build.project_id == project.id).all():
+        branches.add(build.commit_branch)
+    return jsonify(branches=list(branches))
+
+
 @api.route('/projects/<string:host>/<string:owner>/<string:name>/builds', methods=['GET'])
-def search_builds(host, owner, name):
+def get_builds(host, owner, name):
     try:
         count = min(max(int(request.args.get('count', 50)), 50), 1)
     except TypeError:
@@ -71,11 +84,11 @@ def get_build(host, owner, name, build_number):
                                    Project.owner == owner,
                                    Project.name == name).first()
     if project is None:
-        return abort(404)
+        return jsonify(message='Could not find a project with those parameters'), 404
     build = Build.query.filter(Build.project_id == project.id,
                                Build.number == build_number).first()
     if build is None:
-        return abort(404)
+        return jsonify(message='Could not find a build with those parameters'), 404
     return jsonify(build=build_to_json(build, project))
 
 

@@ -10,6 +10,7 @@ sqlalchemy = "*"
 "flask-sqlalchemy" = "*"
 "flask-limiter" = "*"
 "flask-login" = "*"
+"psycopg2" = "*"
 
 
 [dev-packages]
@@ -21,3 +22,4 @@ coverage = "*"
 tox = "*"
 "pytest-mock" = "*"
 "pytest-flask" = "*"
+codecov = "*"
