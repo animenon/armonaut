@@ -54,7 +54,30 @@ class Project(BaseModel):
 
     @property
     def latest_build(self):
-        return Build.query.filter(Build.project_id == self.id).order_by(Build.number).first()
+        return Build.query.filter(Build.project_id == self.id).order_by(Build.number.desc()).first()
+
+    def project_to_json(self):
+        latest_build = self.latest_build
+        return {
+            'id': self.id,
+            'name': self.name,
+            'owner': self.owner,
+            'slug': self.slug,
+            'remote_host': self.remote_host,
+            'remote_id': self.remote_id,
+            'remote_url': self.remote_url,
+            'url': f'https://armonaut.io/{self.remote_host}/{self.owner}/{self.name}',
+            'default_branch': self.default_branch,
+            'private': self.private,
+            'latest_build': {
+                'id': latest_build.id,
+                'number': latest_build.number,
+                'status': latest_build.status,
+                'duration': latest_build.duration,
+                'start_time': strftime(latest_build.start_time),
+                'finish_time': strftime(latest_build.finish_time)
+            } if latest_build is not None else None
+        }
 
 
 class Build(BaseModel):
@@ -114,6 +137,33 @@ class Build(BaseModel):
         """Returns the sum of all jobs that have started executing."""
         return sum([j.duration for j in self.jobs if j.start_time is not None])
 
+    def build_to_json(self, project: Project=None):
+        if project is None:
+            project = self.project
+        return {
+            'id': self.id,
+            'number': self.number,
+            'duration': self.duration,
+            'start_time': strftime(self.start_time),
+            'finish_time': strftime(self.finish_time),
+            'status': self.status,
+            'commit': {
+                'branch': self.commit_branch,
+                'url': self.commit_url,
+                'sha': self.commit_sha,
+                'tag': self.commit_tag,
+                'author': self.commit_author
+            },
+            'pull_request': {
+                'number': self.pull_request_number,
+                'slug': self.pull_request_slug,
+                'branch': self.pull_request_branch,
+                'url': self.pull_request_url
+            } if self.pull_request_number is not None else None,
+            'project': project.project_to_json(),
+            'jobs': [job.job_to_json() for job in self.jobs]
+        }
+
 
 class Job(BaseModel):
     __tablename__ = 'jobs'
@@ -170,6 +220,21 @@ class Job(BaseModel):
                 env[k] = v
         return env
 
+    def job_to_json(self):
+        return {
+            'id': self.id,
+            'number': self.number,
+            'status': self.status,
+            'start_time': strftime(self.start_time),
+            'finish_time': strftime(self.finish_time),
+            'duration': self.duration,
+            'container_units': self.container_units,
+            'pool': {
+                'id': self.pool.id,
+                'community': self.pool.community
+            } if self.pool is not None else None
+        }
+
 
 def unpack_string_list(value: str) -> typing.List[str]:
     """Unpacks a list of strings that has been packed as
@@ -188,3 +253,10 @@ def unpack_string_dict(value: str) -> typing.Dict[str, str]:
         if match:
             dct[match.group(1)] = match.group(2)
     return dct
+
+
+def strftime(dt) -> typing.Union[str, None]:
+    if dt is None:
+        return None
+    return dt.strftime('%Y-%m-%d %H:%M:%SZ')
+

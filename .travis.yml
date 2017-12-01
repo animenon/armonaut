@@ -6,7 +6,7 @@ services:
   - postgresql
 
 env:
-  - APP_SETTINGS=config.ProductionConfig DATABASE_URL=postgres://postgres:@localhost:5432/armonaut REDIS_URL=redis://localhost:6379/0 SECRET_KEY=notasecret
+  - APP_SETTINGS=config.TestingConfig DATABASE_URL=postgres://postgres:@localhost:5432/armonaut REDIS_URL=redis://localhost:6379/0 SECRET_KEY=notasecret
 
 cache:
   - pip

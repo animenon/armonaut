@@ -55,5 +55,5 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % os.path.join(tempfile.gettempdir(), 'test.db')
+    RATELIMIT_ENABLED = False
     TESTING = True

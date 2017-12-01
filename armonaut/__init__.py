@@ -1,6 +1,6 @@
 import datetime
 import os
-from flask import Flask, make_response
+from flask import Flask, make_response, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, current_user
 from flask_limiter import Limiter
