@@ -11,6 +11,8 @@ sqlalchemy = "*"
 "flask-limiter" = "*"
 "flask-login" = "*"
 "psycopg2" = "*"
+rq = "*"
+redis = "*"
 
 
 [dev-packages]
