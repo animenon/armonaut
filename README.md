@@ -1,12 +1,18 @@
-# Armonaut
+<h1 align="center">Armonaut</h1>
+<p align="center">Engineered for Open Source. Flexible, Parallel, and Affordable Continuous Integration Services.</p>
 
-[![Travis branch](https://img.shields.io/travis/rust-lang/rust/master.svg)](https://travis-ci.org/armonaut/armonaut.io)
-[![Codecov](https://img.shields.io/codecov/c/github/armonaut/armonaut.io/master.svg)](https://codecov.io/gh/armonaut/armonaut.io)
-[![Slack](https://img.shields.io/badge/slack-%23dev-blue.svg)](https://armonaut.slack.com)
+<p align="center">
+<a href="https://travis-ci.org/armonaut/armonaut.io"><img src="https://img.shields.io/travis/rust-lang/rust/master.svg" alt="Build Status"></a>
+<a href="https://codecov.io/gh/armonaut/armonaut.io"><img src="https://img.shields.io/codecov/c/github/armonaut/armonaut.io/master.svg" alt="Coverage Status"></a>
+<a href="https://armonaut.slack.com"><img src="https://img.shields.io/badge/slack-%23dev-blue.svg" alt="Slack Channel"></a></p>
 
-Flexible, Burstable, and Parallel Continuous Integration Services engineered for Startups and Teams who Deliver
+## Getting Started
 
-[Join our Slack channel](https://armonaut.slack.com) to talk to developers and seek support.
+- TODO
+
+## Contributing to Armonaut
+
+- TODO: Write CONTRIBUTING.md
 
 ## License
 
