@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 from flask_login import current_user
 from armonaut import limiter
-from armonaut.models import Project, Build, Job, STATUSES
+from armonaut.models import Project, Build, STATUSES
 
 
 def api_rate_limit_func() -> str:
@@ -30,11 +30,11 @@ def get_project(host, owner, name):
 def get_builds(host, owner, name):
     try:
         count = max(min(int(request.args.get('count', 50)), 50), 1)
-    except TypeError:
+    except ValueError:
         return jsonify(message='Parameter `count` must be an integer'), 400
     try:
         page = min(int(request.args.get('page', 1)), 1)
-    except TypeError:
+    except ValueError:
         return jsonify(message='Parameter `page` must be an integer'), 400
     branch = request.args.get('branch', None)
     status = request.args.get('status', None)
@@ -44,7 +44,7 @@ def get_builds(host, owner, name):
     if pull_request is not None:
         try:
             pull_request = int(pull_request)
-        except TypeError:
+        except ValueError:
             return jsonify(message='Parameter `pull_request` must be an integer'), 400
 
     project = Project.query.filter(Project.remote_host == host,

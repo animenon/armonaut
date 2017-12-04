@@ -8,8 +8,6 @@ from sqlalchemy.orm import relationship
 import typing
 
 STATUSES = {'queued', 'starting', 'running', 'success', 'failure', 'error', 'canceled'}
-SERVICES = {'postgres', 'mysql', 'redis', 'memcached', 'rabbitmq',
-            'rethinkdb', 'mongodb', 'couchdb', 'cassandra'}
 _UNPACK_DICT_REGEX = re.compile(r'^([^\s=]+)=(.*)$')
 
 
@@ -89,6 +87,7 @@ class Build(BaseModel):
                         default=datetime.datetime.utcnow)
     finish_time = Column(DateTime, default=None)
     number = Column(Integer, nullable=False, index=True)
+    status = Column(String(8), nullable=False, index=True, default='queued')
 
     # HEAD/Merge Commit
     commit_branch = Column(String, nullable=False, index=True)
@@ -120,8 +119,7 @@ class Build(BaseModel):
     project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
     jobs = relationship('Job', back_populates='build')
 
-    @property
-    def status(self) -> str:
+    def determine_status(self) -> str:
         """Returns the status of the Build which is determined by it's jobs statuses."""
         statuses = {}
         for job in self.jobs:
