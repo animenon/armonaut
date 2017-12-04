@@ -11,15 +11,6 @@ STATUSES = {'queued', 'starting', 'running', 'success', 'failure', 'error', 'can
 _UNPACK_DICT_REGEX = re.compile(r'^([^\s=]+)=(.*)$')
 
 
-class Pool(BaseModel):
-    __tablename__ = 'pools'
-
-    token = Column(String(32), default=lambda: uuid.uuid4().hex)
-    community = Column(Boolean, default=False, nullable=False)
-
-    jobs = relationship('Job', back_populates='pool')
-
-
 class Project(BaseModel):
     __tablename__ = 'projects'
 
@@ -187,9 +178,6 @@ class Job(BaseModel):
     build = relationship('Build', back_populates='jobs')
     build_id = Column(Integer, ForeignKey('builds.id'), nullable=False)
 
-    pool = relationship('Pool', back_populates='jobs')
-    pool_id = Column(Integer, ForeignKey('pools.id'), default=None)
-
     @property
     def duration(self) -> typing.Union[None, int]:
         """Returns None if the job hasn't started yet, otherwise
@@ -264,4 +252,3 @@ def strftime(dt) -> typing.Union[str, None]:
     if dt is None:
         return None
     return dt.strftime('%Y-%m-%d %H:%M:%SZ')
-
