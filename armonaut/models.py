@@ -166,9 +166,7 @@ class Job(BaseModel):
     start_time = Column(DateTime, default=None)
     finish_time = Column(DateTime, default=None)
     number = Column(SmallInteger, nullable=False)
-    
     env = Column(String, default=None)
-    runner_size = Column(String(, nullable=False)
 
     # DigitalOcean Droplet for debugging purposes
     droplet_id = Column(String, default=None)
