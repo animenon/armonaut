@@ -27,8 +27,11 @@ class Project(BaseModel):
     deploy_branch = Column(String, default='master')
     deploy_on = Column(String, default='tag')  # Options: tag, success, never
 
+    # DigitalOcean Spaces
+    spaces_secret_id = Column(String, default=lambda: uuid.uuid4().hex)
+    
     builds = relationship('Build', back_populates='project')
-
+    
     @property
     def slug(self) -> str:
         return f'{self.owner}/{self.name}'
@@ -165,18 +168,30 @@ class Job(BaseModel):
     number = Column(SmallInteger, nullable=False)
     
     env = Column(String, default=None)
-    container_id = Column(String(4), default=None)  # C2M, C2S, VC1L, or VC1M
-    container_units = Column(SmallInteger, default=1, nullable=False)
-    
-    # S3 information
-    log_url = Column(String, default=None)
-    log_size = Column(Integer, default=None)
+    runner_size = Column(String(, nullable=False)
+
+    # DigitalOcean Droplet for debugging purposes
+    droplet_id = Column(String, default=None)
 
     # queued, starting, running, success, failure, error, canceled
     status = Column(String(8), default='queued', nullable=False, index=True)
 
     build = relationship('Build', back_populates='jobs')
     build_id = Column(Integer, ForeignKey('builds.id'), nullable=False)
+                         
+    @property
+    def spaces_log_url(self) -> str:
+        """Returns the URL that the logs will be stored at for this job.
+        """
+        return f'https://armonaut.nyc3.digitaloceanspaces.com/{self.build.project.spaces_secret_id}/logs/{self.build.number}/{self.number}/logs.txt'
+
+    @property
+    def spaces_cache_url(self) -> str:
+        """Returns the URL that the cache tarball will be stored
+        at and retrieved from for this job. Caches aren't updated for
+        failing jobs or pull request jobs.
+        """
+        return f'https://armonaut.nyc3.digitaloceanspaces.com/{self.build.project.spaces_secret_id}/caches/{self.build.commit_branch}.tar.gz'
 
     @property
     def duration(self) -> typing.Union[None, int]:
