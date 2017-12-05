@@ -22,3 +22,4 @@ with additional versioning for beta features as recommended by
 - Create the `GET /api/v1/projects/<host>/<owner>/<name>/builds` API endpoint
 - Create the `GET /api/v1/projects/<host>/<owner>/<name>/builds/<build_number>` API endpoint
 - Create the `GET /api/v1/projects/<host>/<owner>/<name>/branches` API endpoint
+- Frontend template using Bootstrap and Backbone.js
