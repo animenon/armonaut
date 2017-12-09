@@ -24,10 +24,15 @@ from armonaut.models import Account
 oauth = Blueprint('oauth', __name__, url_prefix='/oauth')
 
 
+@oauth.route('/logout', methods=['GET'])
+def logout():
+    if not current_user.is_anonymous:
+        logout_user()
+    return redirect(url_for('index.home'))
+
+
 @oauth.route('/github/handshake', methods=['GET'])
 def github_oauth_handshake():
-    if not current_user.is_anonymous and current_user.github_id is not None:
-        return redirect(url_for('index.home'))
     query = urlencode({'client_id': current_app.config.get("GITHUB_OAUTH_ID"),
                        'response_type': 'code',
                        'redirect_uri': url_for('oauth.github_oauth_callback', _external=True),
@@ -60,25 +65,26 @@ def github_oauth_callback():
         github_login = r.json()['login']
         github_email = r.json()['email']
 
-        if not current_user.is_anonymous and \
-                current_user.github_id is not None and \
-                current_user.github_id != github_id:
-            logout_user()
-        if current_user.is_anonymous:
-            user = Account.query.filter(Account.github_id == github_id).first()
-            if user is None:
-                user = Account()
-        else:
-            user = current_user
+    # Either add or update GitHub user information
+    if not current_user.is_anonymous and \
+            current_user.github_id is not None and \
+            current_user.github_id != github_id:
+        logout_user()
+    if current_user.is_anonymous:
+        user = Account.query.filter(Account.github_id == github_id).first()
+        if user is None:
+            user = Account()
+    else:
+        user = current_user
 
-        user.github_id = github_id
-        user.github_login = github_login
-        user.github_email = github_email
-        user.github_access_token = access_token
+    user.github_id = github_id
+    user.github_login = github_login
+    user.github_email = github_email
+    user.github_access_token = access_token
 
-        db.session.add(user)
-        db.session.commit()
-        login_user(user)
+    db.session.add(user)
+    db.session.commit()
+    login_user(user)
 
     return redirect(url_for('index.home'))
 
