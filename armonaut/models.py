@@ -1,14 +1,39 @@
-from armonaut import BaseModel
+from armonaut import BaseModel, login
 import base64
 import datetime
 import re
-import uuid
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, SmallInteger, BigInteger, func
 from sqlalchemy.orm import relationship
+from flask_login import UserMixin
 import typing
 
 STATUSES = {'queued', 'starting', 'running', 'success', 'failure', 'error', 'canceled'}
 _UNPACK_DICT_REGEX = re.compile(r'^([^\s=]+)=(.*)$')
+
+
+class Account(BaseModel, UserMixin):
+    __tablename__ = 'accounts'
+
+    github_id = Column(BigInteger, default=None, index=True)
+    github_email = Column(String, default=None)
+    github_access_token = Column(String, default=None)
+
+    bitbucket_id = Column(BigInteger, default=None, index=True)
+    bitbucket_email = Column(String, default=None)
+    bitbucket_access_token = Column(String, default=None)
+    bitbucket_refresh_token = Column(String, default=None)
+
+    gitlab_id = Column(BigInteger, default=None, index=True)
+    gitlab_email = Column(String, default=None)
+    gitlab_access_token = Column(String, default=None)
+    gitlab_refresh_token = Column(String, default=None)
+
+    projects = relationship('Project', back_populates='account')
+
+
+@login.user_loader
+def get_user(id):
+    return Account.query.get(id)
 
 
 class Project(BaseModel):
@@ -24,9 +49,8 @@ class Project(BaseModel):
     private = Column(Boolean, nullable=False)
     secret_env = Column(String, default=None)
 
-    deploy_branch = Column(String, default='master')
-    deploy_on = Column(String, default='tag')  # Options: tag, success, never
-
+    account = relationship('Account', uselist=False, back_populates='projects')
+    account_id = Column(Integer, ForeignKey('accounts.id'), nullable=False)
     builds = relationship('Build', back_populates='project')
 
     @property
@@ -102,10 +126,7 @@ class Build(BaseModel):
     after_script = Column(String, default=None)
     deploy = Column(String, default=None)
     services = Column(String, default=None)
-    
-    # Scheduling
-    run_deploy = Column(Boolean, default=False, nullable=False)  # Only one job per build runs deploy.
-    
+
     project = relationship('Project', back_populates='builds')
     project_id = Column(Integer, ForeignKey('projects.id'), nullable=False)
     jobs = relationship('Job', back_populates='build')

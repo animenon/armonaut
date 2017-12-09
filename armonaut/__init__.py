@@ -61,4 +61,7 @@ def register_blueprints(app):
     created in the factory method.
     """
     from armonaut.api.controllers import api
+    from armonaut.oauth.controllers import oauth
+
     app.register_blueprint(api)
+    app.register_blueprint(oauth)
