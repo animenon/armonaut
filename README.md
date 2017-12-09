@@ -2,8 +2,8 @@
 <p align="center">Engineered for Open Source. Flexible, Parallel, and Affordable Continuous Integration Services.</p>
 
 <p align="center">
-<a href="https://travis-ci.org/armonaut/armonaut.io"><img src="https://img.shields.io/travis/armonaut/armonaut.io/master.svg" alt="Build Status"></a>
-<a href="https://codecov.io/gh/armonaut/armonaut.io"><img src="https://img.shields.io/codecov/c/github/armonaut/armonaut.io/master.svg" alt="Coverage Status"></a>
+<a href="https://travis-ci.org/armonaut/armonaut"><img src="https://img.shields.io/travis/armonaut/armonaut/master.svg" alt="Build Status"></a>
+<a href="https://codecov.io/gh/armonaut/armonaut"><img src="https://img.shields.io/codecov/c/github/armonaut/armonaut/master.svg" alt="Coverage Status"></a>
 <a href="https://armonaut.slack.com"><img src="https://img.shields.io/badge/slack-%23dev-blue.svg" alt="Slack Channel"></a></p>
 
 ## Getting Started
