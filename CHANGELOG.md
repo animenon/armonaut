@@ -22,3 +22,6 @@ with additional versioning for beta features as recommended by
 - Create the `GET /api/v1/projects/<host>/<owner>/<name>/builds` API endpoint
 - Create the `GET /api/v1/projects/<host>/<owner>/<name>/builds/<build_number>` API endpoint
 - Create the `GET /api/v1/projects/<host>/<owner>/<name>/branches` API endpoint
+- Frontend template using Bootstrap and Backbone.js
+- Create the `GET /oauth/github|gitlab|bitbucket_handshake` and `GET /oauth/github|gitlab|bitbucket_callback` endpoints
+  for OAuth logins and linking of accounts.

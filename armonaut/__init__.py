@@ -52,7 +52,7 @@ def set_error_handlers(app):
     @app.errorhandler(429)
     def ratelimit_handler(e):
         response = jsonify(message=f'Rate limit exceeded: {e.description} See '
-                                    'https://armonaut.io/docs/rate-limit for more information')
+                                   'https://armonaut.io/docs/rate-limit for more information')
         return make_response(response, 429)
 
     
@@ -60,8 +60,10 @@ def register_blueprints(app):
     """Registers all Blueprints for a Flask application
     created in the factory method.
     """
+    from armonaut.index.controllers import index
     from armonaut.api.controllers import api
     from armonaut.oauth.controllers import oauth
 
+    app.register_blueprint(index)
     app.register_blueprint(api)
     app.register_blueprint(oauth)
