@@ -1,3 +1,18 @@
+# Copyright (C) 2017 Seth Michael Larson
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 from armonaut import BaseModel, login
 import base64
 import datetime
@@ -15,15 +30,18 @@ class Account(BaseModel, UserMixin):
     __tablename__ = 'accounts'
 
     github_id = Column(BigInteger, default=None, index=True)
+    github_login = Column(String, default=None)
     github_email = Column(String, default=None)
     github_access_token = Column(String, default=None)
 
     bitbucket_id = Column(BigInteger, default=None, index=True)
+    bitbucket_login = Column(String, default=None)
     bitbucket_email = Column(String, default=None)
     bitbucket_access_token = Column(String, default=None)
     bitbucket_refresh_token = Column(String, default=None)
 
     gitlab_id = Column(BigInteger, default=None, index=True)
+    gitlab_login = Column(String, default=None)
     gitlab_email = Column(String, default=None)
     gitlab_access_token = Column(String, default=None)
     gitlab_refresh_token = Column(String, default=None)

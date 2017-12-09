@@ -13,6 +13,16 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from armonaut import create_app
+from armonaut import create_app, db
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
+
 app = create_app()
-app.run(host='0.0.0.0', port=8080, debug=True)
+migrate = Migrate(app, db)
+
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+
+
+if __name__ == '__main__':
+    manager.run()

@@ -1,10 +1,25 @@
+# Copyright (C) 2017 Seth Michael Larson
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import datetime
 import os
 from flask import Flask, make_response, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, current_user
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_login import LoginManager, current_user
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, DateTime
 
 
@@ -62,7 +77,7 @@ def register_blueprints(app):
     """
     from armonaut.index.controllers import index
     from armonaut.api.controllers import api
-    from armonaut.oauth.controllers import oauth
+    from armonaut.oauth import oauth
 
     app.register_blueprint(index)
     app.register_blueprint(api)
