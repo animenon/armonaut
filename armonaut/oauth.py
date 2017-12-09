@@ -15,7 +15,7 @@
 
 from urllib.parse import urlparse, urljoin, urlencode
 import requests
-from flask import Blueprint, url_for, redirect, current_app, request, flash
+from flask import Blueprint, url_for, redirect, current_app, request, flash, jsonify
 from flask_login import current_user, login_user, logout_user
 from armonaut import db
 from armonaut.models import Account
@@ -42,6 +42,9 @@ def github_oauth_handshake():
 
 @oauth.route('/github/callback', methods=['GET'])
 def github_oauth_callback():
+    if request.args.get('code') is None:
+        return jsonify(message='Request must have parameter `code`.'), 400
+
     # Exchange our OAuth code for an access token.
     with requests.post('https://github.com/login/oauth/access_token',
                        headers={'Accept': 'application/json'},
@@ -91,19 +94,67 @@ def github_oauth_callback():
 
 @oauth.route('/bitbucket/handshake', methods=['GET'])
 def bitbucket_oauth_handshake():
-    if not current_user.is_anonymous and current_user.bitbucket_id is not None:
-        return redirect(url_for('index.home'))
-    redirect_uri = url_for('oauth.bitbucket_oauth_callback', _external=True)
-    return redirect(f'https://bitbucket.org?'
-                    f'client_id={current_app.config.get("BITBUCKET_OAUTH_ID")}&'
-                    f'response_type=code&'
-                    f'redirect_uri={redirect_uri}&'
-                    f'state=state')
+    query = urlencode({'client_id': current_app.config.get("BITBUCKET_OAUTH_ID"),
+                       'response_type': 'code',
+                       'state': 'state',
+                       'redirect_uri': url_for('oauth.bitbucket_oauth_callback', _external=True)})
+    return redirect(f'https://bitbucket.org/site/oauth2/authorize?{query}')
 
 
 @oauth.route('/bitbucket/callback', methods=['GET'])
 def bitbucket_oauth_callback():
-    pass
+    if request.args.get('code') is None:
+        return jsonify(message='Request must have parameter `code`.'), 400
+
+    # Exchange our OAuth code for an access token.
+    with requests.post('https://bitbucket.org/site/oauth2/access_token',
+                       auth=(current_app.config.get('BITBUCKET_OAUTH_ID'),
+                             current_app.config.get('BITBUCKET_OAUTH_SECRET')),
+                       headers={'Accept': 'application/json'},
+                       params={'redirect_uri': url_for('oauth.bitbucket_oauth_callback', _external=True),
+                               'code': request.args.get('code'),
+                               'state': 'state',
+                               'grant_type': 'authorization_code'}) as r:
+        if not r.ok:
+            flash('Couldn\'t authenticate with BitBucket', 'error')
+            return redirect(url_for('index.home'))
+        access_token = r.json()['access_token']
+        refresh_token = r.json()['refresh_token']
+
+    # Check the validity of the access token by trying to use it.
+    with requests.get('https://bitbucket.com/api/v4/user',
+                      headers={'Accept': 'application/json',
+                               'Authorization': f'Bearer {access_token}'}) as r:
+        if not r.ok:
+            flash('Couldn\'t authenticate with BitBucket', 'error')
+            return redirect(url_for('index.home'))
+        bitbucket_id = r.json()['id']
+        bitbucket_login = r.json()['login']
+        bitbucket_email = r.json()['email']
+
+    # Either add or update GitHub user information
+    if not current_user.is_anonymous and \
+            current_user.bitbucket_id is not None and \
+            current_user.bitbucket_id != bitbucket_id:
+        logout_user()
+    if current_user.is_anonymous:
+        user = Account.query.filter(Account.bitbucket_id == bitbucket_id).first()
+        if user is None:
+            user = Account()
+    else:
+        user = current_user
+
+    user.bitbucket_id = bitbucket_id
+    user.bitbucket_login = bitbucket_login
+    user.bitbucket_email = bitbucket_email
+    user.bitbucket_access_token = access_token
+    user.bitbucket_refresh_token = refresh_token
+
+    db.session.add(user)
+    db.session.commit()
+    login_user(user)
+
+    return redirect(url_for('index.home'))
 
 
 @oauth.route('/gitlab/handshake', methods=['GET'])
