@@ -8,8 +8,9 @@ def test_no_project_found(app, session, client):
     assert r.status_code == 404
 
 
-def test_project_found(app, session, client):
+def test_project_found(app, session, client, account):
     project = Project()
+    project.account = account
     project.remote_host = 'gh'
     project.remote_id = 1
     project.owner = 'armonaut'
@@ -25,8 +26,9 @@ def test_project_found(app, session, client):
 @pytest.mark.parametrize('host,owner,name', [('bb', 'armonaut', 'armonaut.io'),
                                              ('gh', 'armonau', 'armonaut.io'),
                                              ('gh', 'armonaut', 'armonaut.i')])
-def test_project_not_found_wrong_params(app, session, client, host, owner, name):
+def test_project_not_found_wrong_params(app, session, client, host, owner, name, account):
     project = Project()
+    project.account = account
     project.remote_host = 'gh'
     project.remote_id = 1
     project.owner = 'armonaut'
@@ -40,9 +42,9 @@ def test_project_not_found_wrong_params(app, session, client, host, owner, name)
 
 
 @pytest.mark.parametrize('host, hostname', [('gh', 'github.com'), ('gl', 'gitlab.com'), ('bb', 'bitbucket.org')])
-def test_project_api_remote_url(app, session, client, host, hostname):
-
+def test_project_api_remote_url(app, session, client, host, hostname, account):
     project = Project()
+    project.account = account
     project.remote_host = host
     project.remote_id = 1
     project.owner = 'armonaut'

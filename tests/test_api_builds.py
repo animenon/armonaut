@@ -1,17 +1,10 @@
 import datetime
 import pytest
 from flask import url_for
-from armonaut.models import Project, Build, Job
+from armonaut.models import Build
 
 
-def test_api_get_builds(app, session, client):
-    project = Project()
-    project.remote_host = 'gh'
-    project.remote_id = 1
-    project.owner = 'armonaut'
-    project.name = 'armonaut.io'
-    project.private = False
-
+def test_api_get_builds(app, session, client, project):
     build1 = Build()
     build1.project = project
     build1.number = 1
@@ -47,25 +40,18 @@ def test_api_get_builds(app, session, client):
 
     assert len(project.builds) == 3
 
-    r = client.get(url_for('api.get_builds', host='gh', owner='armonaut', name='armonaut.io'), query_string={'branch': 'master'})
+    r = client.get(url_for('api.get_builds', host='gh', owner='armonaut', name='armonaut'), query_string={'branch': 'master'})
     assert r.status_code == 200
     assert len(r.json['builds']) == 2
     assert r.json['builds'] == [x.build_to_json() for x in [build2, build1]]
 
-    r = client.get(url_for('api.get_build', host='gh', owner='armonaut', name='armonaut.io', build_number=1))
+    r = client.get(url_for('api.get_build', host='gh', owner='armonaut', name='armonaut', build_number=1))
     assert r.status_code == 200
     assert r.json['build'] == build1.build_to_json()
 
 
 @pytest.mark.parametrize('query_string', [{'count': 'a'}, {'page': 'a', 'count': '5'}, {'pull_request': 'a'}, {'status': 'unknown'}])
-def test_api_builds_bad_query_string(app, session, client, query_string):
-    project = Project()
-    project.remote_host = 'gh'
-    project.remote_id = 1
-    project.owner = 'armonaut'
-    project.name = 'armonaut.io'
-    project.private = False
-
+def test_api_builds_bad_query_string(app, session, client, project, query_string):
     build1 = Build()
     build1.project = project
     build1.number = 1
@@ -75,11 +61,10 @@ def test_api_builds_bad_query_string(app, session, client, query_string):
     build1.commit_url = 'https://url'
     build1.start_time = datetime.datetime(2017, 1, 1, 0, 0, 0)
 
-    session.add(project)
     session.add(build1)
     session.commit()
 
-    r = client.get(url_for('api.get_builds', host='gh', owner='armonaut', name='armonaut.io'), query_string=query_string)
+    r = client.get(url_for('api.get_builds', host='gh', owner='armonaut', name='armonaut'), query_string=query_string)
 
     assert r.status_code == 400
     assert 'message' in r.json
@@ -88,14 +73,7 @@ def test_api_builds_bad_query_string(app, session, client, query_string):
 @pytest.mark.parametrize('query_string,expected_number', [({'branch': 'master'}, 2),
                                                           ({'pull_request': '1'}, 1),
                                                           ({'status': 'success'}, 1)])
-def test_api_builds_filter(app, session, client, query_string, expected_number):
-    project = Project()
-    project.remote_host = 'gh'
-    project.remote_id = 1
-    project.owner = 'armonaut'
-    project.name = 'armonaut.io'
-    project.private = False
-
+def test_api_builds_filter(app, session, client, project, query_string, expected_number):
     build1 = Build()
     build1.project = project
     build1.number = 1
@@ -134,7 +112,7 @@ def test_api_builds_filter(app, session, client, query_string, expected_number):
     session.add(build3)
     session.commit()
 
-    r = client.get(url_for('api.get_builds', host='gh', owner='armonaut', name='armonaut.io'), query_string=query_string)
+    r = client.get(url_for('api.get_builds', host='gh', owner='armonaut', name='armonaut'), query_string=query_string)
 
     assert r.status_code == 200
     assert len(r.json['builds']) == expected_number

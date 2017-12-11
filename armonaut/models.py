@@ -34,7 +34,7 @@ class Account(BaseModel, UserMixin):
     github_email = Column(String, default=None)
     github_access_token = Column(String, default=None)
 
-    bitbucket_id = Column(BigInteger, default=None, index=True)
+    bitbucket_id = Column(String, default=None, index=True)
     bitbucket_login = Column(String, default=None)
     bitbucket_email = Column(String, default=None)
     bitbucket_access_token = Column(String, default=None)

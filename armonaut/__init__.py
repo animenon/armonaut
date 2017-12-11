@@ -22,6 +22,8 @@ from flask_login import LoginManager, current_user
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, DateTime
 
+__version__ = '1.0.0b1'
+
 
 def limiter_key_func() -> str:
     """The Flask-Limiter key function. We delimit by remote address

@@ -17,7 +17,7 @@ from urllib.parse import urlparse, urljoin, urlencode
 import requests
 from flask import Blueprint, url_for, redirect, current_app, request, flash, jsonify
 from flask_login import current_user, login_user, logout_user
-from armonaut import db
+from armonaut import db, __version__
 from armonaut.models import Account
 
 
@@ -47,22 +47,24 @@ def github_oauth_callback():
 
     # Exchange our OAuth code for an access token.
     with requests.post('https://github.com/login/oauth/access_token',
-                       headers={'Accept': 'application/json'},
+                       headers={'Accept': 'application/json',
+                                'User-Agent': f'Armonaut/{__version__}'},
                        params={'client_id': current_app.config.get('GITHUB_OAUTH_ID'),
                                'client_secret': current_app.config.get('GITHUB_OAUTH_SECRET'),
                                'redirect_uri': url_for('oauth.github_oauth_callback', _external=True),
                                'code': request.args.get('code')}) as r:
         if not r.ok:
-            flash('Couldn\'t authenticate with GitHub', 'error')
+            flash('Couldn\'t authenticate with GitHub', 'danger')
             return redirect(url_for('index.home'))
         access_token = r.json()['access_token']
 
     # Check the validity of the access token by trying to use it.
     with requests.get('https://api.github.com/user',
                       headers={'Accept': 'application/json',
+                               'User-Agent': f'Armonaut/{__version__}',
                                'Authorization': f'token {access_token}'}) as r:
         if not r.ok:
-            flash('Couldn\'t authenticate with GitHub', 'error')
+            flash('Couldn\'t authenticate with GitHub', 'danger')
             return redirect(url_for('index.home'))
         github_id = r.json()['id']
         github_login = r.json()['login']
@@ -95,9 +97,7 @@ def github_oauth_callback():
 @oauth.route('/bitbucket/handshake', methods=['GET'])
 def bitbucket_oauth_handshake():
     query = urlencode({'client_id': current_app.config.get("BITBUCKET_OAUTH_ID"),
-                       'response_type': 'code',
-                       'state': 'state',
-                       'redirect_uri': url_for('oauth.bitbucket_oauth_callback', _external=True)})
+                       'response_type': 'code'})
     return redirect(f'https://bitbucket.org/site/oauth2/authorize?{query}')
 
 
@@ -110,27 +110,39 @@ def bitbucket_oauth_callback():
     with requests.post('https://bitbucket.org/site/oauth2/access_token',
                        auth=(current_app.config.get('BITBUCKET_OAUTH_ID'),
                              current_app.config.get('BITBUCKET_OAUTH_SECRET')),
-                       headers={'Accept': 'application/json'},
-                       params={'redirect_uri': url_for('oauth.bitbucket_oauth_callback', _external=True),
-                               'code': request.args.get('code'),
-                               'state': 'state',
-                               'grant_type': 'authorization_code'}) as r:
+                       headers={'Accept': 'application/json',
+                                'User-Agent': f'Armonaut/{__version__}'},
+                       data={'code': request.args.get('code'),
+                             'grant_type': 'authorization_code'}) as r:
         if not r.ok:
-            flash('Couldn\'t authenticate with BitBucket', 'error')
+            flash('Couldn\'t authenticate with BitBucket', 'danger')
             return redirect(url_for('index.home'))
         access_token = r.json()['access_token']
         refresh_token = r.json()['refresh_token']
 
     # Check the validity of the access token by trying to use it.
-    with requests.get('https://bitbucket.com/api/v4/user',
+    with requests.get('https://api.bitbucket.org/2.0/user',
                       headers={'Accept': 'application/json',
+                               'User-Agent': f'Armonaut/{__version__}',
                                'Authorization': f'Bearer {access_token}'}) as r:
         if not r.ok:
-            flash('Couldn\'t authenticate with BitBucket', 'error')
+            flash('Couldn\'t authenticate with BitBucket', 'danger')
             return redirect(url_for('index.home'))
-        bitbucket_id = r.json()['id']
-        bitbucket_login = r.json()['login']
-        bitbucket_email = r.json()['email']
+        bitbucket_id = r.json()['account_id']
+        bitbucket_login = r.json()['username']
+
+    with requests.get('https://api.bitbucket.org/2.0/user/emails',
+                      headers={'Accept': 'application/json',
+                               'User-Agent': f'Armonaut/{__version__}',
+                               'Authorization': f'Bearer {access_token}'}) as r:
+        if not r.ok:
+            flash('Couldn\'t authenticate with BitBucket', 'danger')
+            return redirect(url_for('index.home'))
+        bitbucket_email = None
+        for entry in r.json()['values']:
+            if entry['is_primary']:
+                bitbucket_email = entry['email']
+                break
 
     # Either add or update GitHub user information
     if not current_user.is_anonymous and \

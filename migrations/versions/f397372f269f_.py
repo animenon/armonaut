@@ -1,10 +1,26 @@
+# Copyright (C) 2017 Seth Michael Larson
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published
+# by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 """empty message"""
+
 from alembic import op
 import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '94a9b87fb05e'
+revision = 'f397372f269f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -19,7 +35,7 @@ def upgrade():
     sa.Column('github_login', sa.String(), nullable=True),
     sa.Column('github_email', sa.String(), nullable=True),
     sa.Column('github_access_token', sa.String(), nullable=True),
-    sa.Column('bitbucket_id', sa.BigInteger(), nullable=True),
+    sa.Column('bitbucket_id', sa.String(), nullable=True),
     sa.Column('bitbucket_login', sa.String(), nullable=True),
     sa.Column('bitbucket_email', sa.String(), nullable=True),
     sa.Column('bitbucket_access_token', sa.String(), nullable=True),

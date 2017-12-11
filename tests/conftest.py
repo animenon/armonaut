@@ -4,6 +4,7 @@ import tempfile
 
 from armonaut import create_app
 from armonaut import db as _db
+from armonaut.models import Account, Project
 
 
 TEST_DB_PATH = os.path.join(tempfile.gettempdir(), 'test.db')
@@ -61,3 +62,32 @@ def session(db, request):
 
     request.addfinalizer(teardown)
     return session
+
+
+@pytest.fixture(scope='function')
+def account(session):
+    account = Account()
+    account.github_id = 12345
+    account.github_login = 'SethMichaelLarson'
+    account.github_email = 'sethmichaellarson@protonmail.com'
+    account.github_access_token = ''
+
+    session.add(account)
+    session.commit()
+    return account
+
+
+@pytest.fixture(scope='function')
+def project(account, session):
+    project = Project()
+    project.owner = 'armonaut'
+    project.name = 'armonaut'
+    project.remote_host = 'gh'
+    project.remote_id = 123
+    project.default_branch = 'master'
+    project.private = False
+    project.account = account
+
+    session.add(project)
+    session.commit()
+    return project
