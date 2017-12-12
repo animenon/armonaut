@@ -6,9 +6,6 @@ from armonaut.models import Project
 class BitbucketProject(Project):
     __mapper_args__ = {'polymorphic_identity': 'bb'}
 
-    def get_language(self) -> str:
-        raise NotImplementedError()
-
     def has_file(self, path: str) -> bool:
         raise NotImplementedError()
 
@@ -21,13 +18,7 @@ class BitbucketProject(Project):
     def delete_webhook(self):
         raise NotImplementedError()
 
-    def create_release(self, ref):
-        raise NotImplementedError()
-
-    def create_deployment(self, ref):
-        raise NotImplementedError()
-
-    def update_commit_status(self, commit, status):
+    def update_commit_status(self, commit, status, url):
         raise NotImplementedError()
 
     def is_owner(self, id) -> bool:

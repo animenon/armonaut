@@ -15,5 +15,5 @@ def gitlab_webhooks():
 
 
 @webhooks.route('/bitbucket', methods=['POST'])
-def bitbucket():
+def bitbucket_webhooks():
     raise NotImplementedError()
