@@ -1,8 +1,4 @@
-container_units: 3
-
-services:
-  - postgresql
-  - redis
+container_units: 4
 
 env:
   APP_SETTINGS: config.ProductionConfig
@@ -15,8 +11,11 @@ cache:
   - directories:
     - ${HOME}/.cache
 
+redis: 4.0.2
+postgresql: 9.6.2
 python:
-  - 3.6
+  - 3.6-dev
+  - 3.7-dev
   - nightly
 
 install:
