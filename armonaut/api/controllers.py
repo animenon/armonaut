@@ -32,12 +32,12 @@ limiter.limit(api_rate_limit_func)(api)
 
 @api.route('/projects/<string:host>/<string:owner>/<string:name>', methods=['GET'])
 def get_project(host, owner, name):
-    """Gets information about a project"""
+    """Gets information about a models"""
     project = Project.query.filter(Project.remote_host == host,
                                    Project.owner == owner,
                                    Project.name == name).first()
     if project is None:
-        return jsonify(message='Could not find a project with those parameters'), 404
+        return jsonify(message='Could not find a models with those parameters'), 404
     return jsonify(project=project.project_to_json())
 
 
@@ -66,7 +66,7 @@ def get_builds(host, owner, name):
                                    Project.owner == owner,
                                    Project.name == name).first()
     if project is None:
-        return jsonify(message='Could not find a project with those parameters'), 404
+        return jsonify(message='Could not find a models with those parameters'), 404
 
     query = Build.query.filter(Build.project_id == project.id).order_by(Build.start_time.desc())
     if branch is not None:
@@ -86,7 +86,7 @@ def get_build(host, owner, name, build_number):
                                    Project.owner == owner,
                                    Project.name == name).first()
     if project is None:
-        return jsonify(message='Could not find a project with those parameters'), 404
+        return jsonify(message='Could not find a models with those parameters'), 404
     build = Build.query.filter(Build.project_id == project.id,
                                Build.number == build_number).first()
     if build is None:

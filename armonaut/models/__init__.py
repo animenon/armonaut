@@ -17,6 +17,7 @@ from armonaut import BaseModel, login
 import base64
 import datetime
 import re
+import uuid
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Boolean, SmallInteger, BigInteger, func
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
@@ -65,11 +66,16 @@ class Project(BaseModel):
 
     default_branch = Column(String, nullable=False, default='master')
     private = Column(Boolean, nullable=False)
+    active = Column(Boolean, nullable=False, default=False)
+
     secret_env = Column(String, default=None)
+    webhook_secret = Column(String, default=None)
 
     account = relationship('Account', uselist=False, back_populates='projects')
     account_id = Column(Integer, ForeignKey('accounts.id'), nullable=False)
-    builds = relationship('Build', back_populates='project')
+    builds = relationship('Build', back_populates='models')
+
+    __mapper_args__ = {'polymorphic_on': remote_host}
 
     @property
     def slug(self) -> str:
@@ -88,6 +94,42 @@ class Project(BaseModel):
     @property
     def latest_build(self):
         return Build.query.filter(Build.project_id == self.id).order_by(Build.number.desc()).first()
+
+    def get_language(self) -> str:
+        raise NotImplementedError()
+
+    def has_file(self, path: str) -> bool:
+        raise NotImplementedError()
+
+    def has_webhook(self) -> bool:
+        raise NotImplementedError()
+
+    def create_webhook(self):
+        raise NotImplementedError()
+
+    def delete_webhook(self):
+        raise NotImplementedError()
+
+    def create_release(self, ref):
+        raise NotImplementedError()
+
+    def create_deployment(self, ref):
+        raise NotImplementedError()
+
+    def update_commit_status(self, commit, status):
+        raise NotImplementedError()
+
+    def is_owner(self, id) -> bool:
+        raise NotImplementedError()
+
+    def is_collaborator(self, id) -> bool:
+        raise NotImplementedError()
+
+    def is_access_token_valid(self):
+        raise NotImplementedError()
+
+    def sync_project(self):
+        raise NotImplementedError()
 
     def project_to_json(self):
         latest_build = self.latest_build
@@ -168,7 +210,7 @@ class Build(BaseModel):
         """Returns the sum of all jobs that have started executing."""
         return sum([j.duration for j in self.jobs if j.start_time is not None])
 
-    def build_to_json(self, project: Project=None):
+    def build_to_json(self, project: Project = None):
         if project is None:
             project = self.project
         return {
@@ -191,7 +233,7 @@ class Build(BaseModel):
                 'branch': self.pull_request_branch,
                 'url': self.pull_request_url
             } if self.pull_request_number is not None else None,
-            'project': project.project_to_json(),
+            'models': project.project_to_json(),
             'jobs': [job.job_to_json() for job in self.jobs]
         }
 
@@ -212,12 +254,12 @@ class Job(BaseModel):
 
     build = relationship('Build', back_populates='jobs')
     build_id = Column(Integer, ForeignKey('builds.id'), nullable=False)
-                         
+
     @property
     def spaces_log_url(self) -> str:
         """Returns the URL that the logs will be stored at for this job.
         """
-        return f'https://armonaut.nyc3.digitaloceanspaces.com/{self.build.project.spaces_secret_id}/logs/{self.build.number}/{self.number}/logs.txt'
+        return f'https://armonaut.nyc3.digitaloceanspaces.com/{self.build.models.spaces_secret_id}/logs/{self.build.number}/{self.number}/logs.txt'
 
     @property
     def spaces_cache_url(self) -> str:
@@ -225,7 +267,7 @@ class Job(BaseModel):
         at and retrieved from for this job. Caches aren't updated for
         failing jobs or pull request jobs.
         """
-        return f'https://armonaut.nyc3.digitaloceanspaces.com/{self.build.project.spaces_secret_id}/caches/{self.build.commit_branch}.tar.gz'
+        return f'https://armonaut.nyc3.digitaloceanspaces.com/{self.build.models.spaces_secret_id}/caches/{self.build.commit_branch}.tar.gz'
 
     @property
     def duration(self) -> typing.Union[None, int]:
@@ -246,10 +288,10 @@ class Job(BaseModel):
         if self.start_time is None:
             self.start_time = datetime.datetime.utcnow()
         return int((start_time - self.create_time).total_seconds())
-    
+
     def resolve_env(self) -> typing.Dict[str, str]:
         """Resolves all values for this job's environment variables
-        from all sources. Also includes the project-level `secret_env`
+        from all sources. Also includes the models-level `secret_env`
         if the job has not been triggered by a pull request.
         """
         env = {}

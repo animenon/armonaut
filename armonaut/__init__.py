@@ -80,7 +80,9 @@ def register_blueprints(app):
     from armonaut.index.controllers import index
     from armonaut.api.controllers import api
     from armonaut.oauth import oauth
+    from armonaut.webhook import webhooks
 
     app.register_blueprint(index)
     app.register_blueprint(api)
     app.register_blueprint(oauth)
+    app.register_blueprint(webhooks)

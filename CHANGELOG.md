@@ -25,3 +25,5 @@ with additional versioning for beta features as recommended by
 - Frontend template using Bootstrap and Backbone.js
 - Create the `GET /oauth/github|gitlab|bitbucket_handshake` and `GET /oauth/github|gitlab|bitbucket_callback` endpoints
   for OAuth logins and linking of accounts.
+- Add polymorphic entities for Github, Gitlab, and Bitbucket projects for API calls.
+- Add `POST /webhooks/github|gitlab|bitbucket` for fielding webhook events.

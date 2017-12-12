@@ -20,7 +20,6 @@ from flask_login import current_user, login_user, logout_user
 from armonaut import db, __version__
 from armonaut.models import Account
 
-
 oauth = Blueprint('oauth', __name__, url_prefix='/oauth')
 
 
@@ -36,7 +35,7 @@ def github_oauth_handshake():
     query = urlencode({'client_id': current_app.config.get("GITHUB_OAUTH_ID"),
                        'response_type': 'code',
                        'redirect_uri': url_for('oauth.github_oauth_callback', _external=True),
-                       'scope': 'user:email read:org repo'})
+                       'scope': 'user:email read:org repo repo_deployment '})
     return redirect(f'https://github.com/login/oauth/authorize?{query}')
 
 
