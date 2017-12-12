@@ -173,16 +173,68 @@ def bitbucket_oauth_callback():
 def gitlab_oauth_handshake():
     if not current_user.is_anonymous and current_user.gitlab_id is not None:
         return redirect(url_for('index.home'))
-    redirect_uri = url_for('oauth.gitlab_oauth_callback')
-    return redirect(f'https://gitlab.com/oauth/authorize?'
-                    f'response_type=code&'
-                    f'redirect_uri={redirect_uri}&'
-                    f'state=state')
+    query = urlencode({'client_id': current_app.config.get("GITLAB_OAUTH_ID"),
+                       'response_type': 'code',
+                       'redirect_uri': url_for('oauth.gitlab_oauth_callback', _external=True),
+                       'state': 'state'})
+    return redirect(f'https://gitlab.com/oauth/authorize?{query}')
 
 
 @oauth.route('/gitlab/callback', methods=['GET'])
 def gitlab_oauth_callback():
-    pass
+    if request.args.get('code') is None:
+        return jsonify(message='Request must have parameter `code`.'), 400
+
+    # Exchange our OAuth code for an access token.
+    with requests.post('https://gitlab.com/oauth/token',
+                       headers={'Accept': 'application/json',
+                                'User-Agent': f'Armonaut/{__version__}'},
+                       params={'code': request.args.get('code'),
+                               'grant_type': 'authorization_code',
+                               'client_id':  current_app.config.get('GITLAB_OAUTH_ID'),
+                               'client_secret': current_app.config.get('GITLAB_OAUTH_SECRET'),
+                               'redirect_uri': url_for('oauth.gitlab_oauth_callback', _external=True)}) as r:
+        if not r.ok:
+            flash('Couldn\'t authenticate with GitLab', 'danger')
+            return redirect(url_for('index.home'))
+        access_token = r.json()['access_token']
+        refresh_token = r.json()['refresh_token']
+
+    # Check the validity of the access token by trying to use it.
+    with requests.get('https://gitlab.com/api/v4/user',
+                      headers={'Accept': 'application/json',
+                               'User-Agent': f'Armonaut/{__version__}',
+                               'Authorization': f'Bearer {access_token}'}) as r:
+        if not r.ok:
+            flash('Couldn\'t authenticate with GitLab', 'danger')
+            return redirect(url_for('index.home'))
+        gitlab_id = r.json()['id']
+        gitlab_login = r.json()['username']
+        gitlab_email = r.json()['email']
+
+    # Either add or update GitHub user information
+    if not current_user.is_anonymous and \
+            current_user.gitlab_id is not None and \
+            current_user.gitlab_id != gitlab_id:
+        logout_user()
+    if current_user.is_anonymous:
+        user = Account.query.filter(Account.gitlab_id == gitlab_id).first()
+        if user is None:
+            user = Account()
+    else:
+        user = current_user
+
+    user.gitlab_id = gitlab_id
+    user.gitlab_login = gitlab_login
+    user.gitlab_email = gitlab_email
+    user.gitlab_access_token = access_token
+    user.gitlab_refresh_token = refresh_token
+
+    db.session.add(user)
+    db.session.commit()
+    login_user(user)
+
+    return redirect(url_for('index.home'))
 
 
 def is_safe_url(url) -> bool:
