@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a173984abc5fc14b7cda702f55e97041160e0ffb46c10b8eabf22f67985257a9"
+            "sha256": "b10687d1a454a81b011cd21198b024ae77f5f6c32736febd1e3824d89079b38f"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -9,9 +9,9 @@
             "os_name": "posix",
             "platform_machine": "x86_64",
             "platform_python_implementation": "CPython",
-            "platform_release": "4.13.0-19-generic",
+            "platform_release": "3.10.0-693.2.2.el7.x86_64",
             "platform_system": "Linux",
-            "platform_version": "#22-Ubuntu SMP Mon Dec 4 11:58:07 UTC 2017",
+            "platform_version": "#1 SMP Tue Sep 12 22:26:13 UTC 2017",
             "python_full_version": "3.6.2",
             "python_version": "3.6",
             "sys_platform": "linux"
@@ -171,6 +171,20 @@
                 "sha256:c78f53e32d7cf36d8597c8a2c7e3c0ad210f97b9509e152e4c37fa80869f823c"
             ],
             "version": "==17.3.0"
+        },
+        "betamax": {
+            "hashes": [
+                "sha256:91d5f6ca6b03901df93f9c0c2ac7fe1a0ff557bd6f30124ec73cefae00fc14a2",
+                "sha256:82c480852a70a1bb57bd3f505107ffc293185e26fdaf45e538478e675fd9c8a1"
+            ],
+            "version": "==0.8.0"
+        },
+        "betamax-serializers": {
+            "hashes": [
+                "sha256:c7c4bd96f71d763debbec21e09bea932613cf651c2055514e6fd889358a46e3e",
+                "sha256:6da087c90317b2bef74972f314f26f97d5cfa3d99c11f02eed94540244e71ffb"
+            ],
+            "version": "==0.2.0"
         },
         "certifi": {
             "hashes": [

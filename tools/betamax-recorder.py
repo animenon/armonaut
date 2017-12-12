@@ -26,12 +26,14 @@ import os
 import betamax
 import requests
 import base64
+from betamax_serializers import pretty_json
 
 # The cassette library is in `tests/cassettes`
 CASSETTE_LIBRARY_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     'tests', 'cassettes'
 )
+
 
 def main():
     try:
@@ -57,3 +59,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

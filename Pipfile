@@ -1,15 +1,17 @@
 [[source]]
+
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
+
 
 [packages]
 
 flask = "*"
 sqlalchemy = "*"
-"flask-sqlalchemy" = "*"
-"flask-limiter" = "*"
-"flask-login" = "*"
+flask-sqlalchemy = "*"
+flask-limiter = "*"
+flask-login = "*"
 "psycopg2" = "*"
 rq = "*"
 redis = "*"
@@ -19,12 +21,14 @@ redis = "*"
 
 "flake8" = "*"
 pytest = "*"
-"pytest-cov" = "*"
+pytest-cov = "*"
 coverage = "*"
 tox = "*"
-"pytest-mock" = "*"
-"pytest-flask" = "*"
+pytest-mock = "*"
+pytest-flask = "*"
 codecov = "*"
 alembic = "*"
-"flask-script" = "*"
-"flask-migrate" = "*"
+flask-script = "*"
+flask-migrate = "*"
+betamax = "*"
+betamax-serializers = "*"
