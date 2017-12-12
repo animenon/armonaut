@@ -55,4 +55,4 @@ def test_project_api_remote_url(app, session, client, host, hostname, account):
 
     r = client.get(url_for('api.get_project', host=host, owner='armonaut', name='armonaut.io'))
     assert r.status_code == 200
-    assert r.json['models']['remote_url'] == f'https://{hostname}/armonaut/armonaut.io'
+    assert r.json['project']['remote_url'] == f'https://{hostname}/armonaut/armonaut.io'
