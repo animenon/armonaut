@@ -1,5 +1,6 @@
 <h1 align="center">Armonaut</h1>
-<p align="center">Engineered for Open Source. Flexible, Parallel, and Affordable Continuous Integration Services.</p>
+<h4 align="center">Flexible, Scalable, and Powerful Continuous Integration.</h4>
+<p align="center">Offering ARM and x86-64 builds designed for OSS, Internet-of-Things, Startups, and Business-class Teams</p>
 
 <p align="center">
 <a href="https://travis-ci.org/armonaut/armonaut"><img src="https://img.shields.io/travis/armonaut/armonaut/master.svg" alt="Build Status"></a>
