@@ -1,0 +1,105 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['0']
+      User-Agent: [Armonaut/1.0.0b1]
+    method: POST
+    uri: https://github.com/login/oauth/access_token?client_id=7c9836e4b56c5cd6d852&client_secret=CLIENT_SECRET&code=c3cccd15fe3dbbaa5d7d&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgithub%2Fcallback
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAx3LywrCMBAF0H+ZdRbqhNbkZ0qauVfER8qkLor475ZuD5yvlFrR+7S2B96SZRgv
+        VNo5KTgyJdowR1UY0skIRrsqGVWCHGVatwX7m1Ecvmuv7QBHsdz8FhxLC58Oz3iV+1N+fxWSDth0
+        AAAA
+    headers:
+      Cache-Control: [no-cache]
+      Content-Encoding: [gzip]
+      Content-Security-Policy: ['default-src ''none''; base-uri ''self''; block-all-mixed-content;
+          child-src render.githubusercontent.com; connect-src ''self'' uploads.github.com
+          status.github.com collector.githubapp.com api.github.com www.google-analytics.com
+          github-cloud.s3.amazonaws.com github-production-repository-file-5c1aeb.s3.amazonaws.com
+          github-production-upload-manifest-file-7fdce7.s3.amazonaws.com github-production-user-asset-6210df.s3.amazonaws.com
+          wss://live.github.com; font-src assets-cdn.github.com; form-action ''self''
+          github.com gist.github.com; frame-ancestors ''none''; img-src ''self'' data:
+          assets-cdn.github.com identicons.github.com collector.githubapp.com github-cloud.s3.amazonaws.com
+          *.githubusercontent.com; media-src ''none''; script-src assets-cdn.github.com;
+          style-src ''unsafe-inline'' assets-cdn.github.com']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Wed, 13 Dec 2017 03:12:03 GMT']
+      Expect-CT: ['max-age=2592000, report-uri="https://api.github.com/_private/browser/errors"']
+      Public-Key-Pins: [max-age=0; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=";
+          pin-sha256="RRM1dGqnDFsCJXBTHky16vi1obOlCgFFn/yOhI/y+ho="; pin-sha256="k2v657xBsOVe1PQRwOsHsw3bsGT2VzIqz5K+59sNQws=";
+          pin-sha256="K87oWBWM9UZfyddvDfoxL+8lpNyoUB2ptGtn0fv6G2Q="; pin-sha256="IQBnNBEiFuhj+8x6X8XLgh01V9Ic5/V3IRQLNFFc7v4=";
+          pin-sha256="iie1VXtL7HzAMF+/PVPR9xzT80kQxdZeJ+zduCB3uj0="; pin-sha256="LvRiGEjRqfzurezaWuj8Wie2gyHMrW5Q06LspMnox7A=";
+          includeSubDomains]
+      Server: [GitHub.com]
+      Status: [200 OK]
+      Strict-Transport-Security: [max-age=31536000; includeSubdomains; preload]
+      Vary: [X-PJAX]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [deny]
+      X-GitHub-Request-Id: ['C70A:074B:DB73E4:1916C17:5A309A83']
+      X-Request-Id: [ecb824fd716d80e845d52a379e34fde9]
+      X-Runtime: ['0.031764']
+      X-Runtime-rack: ['0.037254']
+      X-UA-Compatible: ['IE=Edge,chrome=1']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: GET
+    uri: https://api.github.com/user
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WUwWrbQBCGX2XZs21ZSlKnglJKCaUQt4Wkl17MarW2pqx2xe5KxjV5gUJKj7n1
+        DfJsfYT+KzkmMTkU52RrNP+nf3Z2Zsu1XZHhOb9SoZqTrITSl8J5a/iIU8nz9PwsfT09mY246EQQ
+        btE6jfQqhMbnSTIE/XSyolC1ReuVk9YEZcJE2jppkwf92+7NKZArt8NENkfgANfQjjTIgfPJc9aq
+        UOsDK4ODXvecYmm1tmvwDiv4r08mezk8D//JrF6Cgnyb2FApHCnKvImHQz4caa+XbpP4s6Aywjya
+        5VR5nMWdGAbXBt62iVON7alt4aWjJpA1R1p9ggDSupUw9EO8AAmEBymaPNJULwVCdbi6RzIG7TZp
+        HHVCbuJxOSUVdejCS7gHEGDDplEYn6+4N7EnFNRClHWc46XQXo24EXVMiHPA5hO2n2gMRyPMBq/e
+        FYUNgX00cgJEgTXwaKrDmkJQrp+lZhMqKzzF09FW9m1C6pyMUaKxmvyIzT/Fo6sFYTWYVusRr8gp
+        UWiYGJ4LshB9iSyDOyrY3z+/b9ml7ZRjdsk+wK9H7Nc9+4y7VSMFT3c/2UVtvxN7b42x5L1qHcK3
+        9+zKLsNaOMUuDNaXAoQMwyyxWpUkhWal6kgqRMvWB7eJNTZtoUkuhk7n2fk+0s8Oz7OHwcaOwN47
+        eTTnPMf+k6gooJUioJJsmr4aT0/H6ew6S5GcZ9k3fKNtyic5s3GajdP0Oj3Ls1mfc/MPJnQZEXMF
+        AAA=
+    headers:
+      Access-Control-Allow-Origin: ['*']
+      Access-Control-Expose-Headers: ['ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit,
+          X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes,
+          X-Poll-Interval']
+      Cache-Control: ['private, max-age=60, s-maxage=60']
+      Content-Encoding: [gzip]
+      Content-Security-Policy: [default-src 'none']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Wed, 13 Dec 2017 03:12:04 GMT']
+      ETag: [W/"5ade39d38cd47a94993696071afb620f"]
+      Last-Modified: ['Mon, 11 Dec 2017 15:27:22 GMT']
+      Server: [GitHub.com]
+      Status: [200 OK]
+      Strict-Transport-Security: [max-age=31536000; includeSubdomains; preload]
+      Vary: ['Accept, Authorization, Cookie, X-GitHub-OTP']
+      X-Accepted-OAuth-Scopes: ['']
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [deny]
+      X-GitHub-Media-Type: [github.v3]
+      X-GitHub-Request-Id: ['C70B:29A78:1B56EEB:346E1A4:5A309A83']
+      X-OAuth-Client-Id: [7c9836e4b56c5cd6d852]
+      X-OAuth-Scopes: ['read:org, repo, user:email']
+      X-RateLimit-Limit: ['5000']
+      X-RateLimit-Remaining: ['4999']
+      X-RateLimit-Reset: ['1513138324']
+      X-Runtime-rack: ['0.046555']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1
