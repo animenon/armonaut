@@ -6,7 +6,15 @@ services:
   - postgresql
 
 env:
-  - APP_SETTINGS=config.TestingConfig DATABASE_URL=postgres://postgres:@localhost:5432/armonaut REDIS_URL=redis://localhost:6379/0 SECRET_KEY=notasecret
+  global:
+    - APP_SETTINGS=config.TestingConfig
+    - DATABASE_URL=postgres://postgres:@localhost:5432/armonaut
+    - REDIS_URL=redis://localhost:6379/0
+    - SECRET_KEY=notasecret
+
+    - GITHUB_OAUTH_ID=7c9836e4b56c5cd6d852
+    - GITLAB_OAUTH_ID=664418d9f3984ef15a998bde3433a0704a2eee8303b7fbb7a0f8ff36372d286f
+    - BITBUCKET_OAUTH_ID=2eRWALqLx4KpAvEZAv
 
 cache:
   - pip

@@ -50,6 +50,8 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
+    SERVER_NAME = 'localhost:8080'
+    RATELIMIT_ENABLED = False
 
 
 class TestingConfig(Config):
