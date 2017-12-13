@@ -334,3 +334,8 @@ def strftime(dt) -> typing.Union[str, None]:
     if dt is None:
         return None
     return dt.strftime('%Y-%m-%d %H:%M:%SZ')
+
+
+from armonaut.models.github import GithubProject
+from armonaut.models.gitlab import GitlabProject
+from armonaut.models.bitbucket import BitbucketProject

@@ -27,7 +27,7 @@ install:
   - pipenv install --dev
 
 script:
-  - pytest --cov armonaut/ tests/
+  - pytest --cov armonaut/ tests/ --vcr-record-mode=none
 
 after_success:
   - codecov

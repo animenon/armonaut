@@ -14,12 +14,18 @@ TEST_DB_PATH = os.path.join(tempfile.gettempdir(), 'test.db')
 def vcr_config():
     return {
         'serializer': 'json',
-        'record_mode': 'once',        
+        'record_mode': 'once',
 
         # Replace the Authorization request header with "DUMMY" in cassettes
         'filter_headers': [('authorization', 'ACCESS_TOKEN')],
         'filter_query_parameters': [('client_secret', 'CLIENT_SECRET')]
     }
+
+
+@pytest.fixture
+def vcr_cassette_path(request, vcr_cassette_name):
+    return os.path.join('cassettes', request.module.__name__, vcr_cassette_name)
+
 
 @pytest.fixture(scope='session')
 def app(request):
