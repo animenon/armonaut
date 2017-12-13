@@ -35,7 +35,7 @@ def github_oauth_handshake():
     query = urlencode({'client_id': current_app.config.get("GITHUB_OAUTH_ID"),
                        'response_type': 'code',
                        'redirect_uri': url_for('oauth.github_oauth_callback', _external=True),
-                       'scope': 'user:email read:org repo repo_deployment '})
+                       'scope': 'user:email read:org repo repo_deployment'})
     return redirect(f'https://github.com/login/oauth/authorize?{query}')
 
 

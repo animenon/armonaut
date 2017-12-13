@@ -37,8 +37,9 @@ class Config(object):
     SESSION_PROTECTION = 'strong'
 
     # Flask-Limiter config
+    RATELIMIT_ENABLED = True
     RATELIMIT_STORAGE_URL = REDIS_URL
-    RATELIMIT_STRATEGY = 'fixed-window-elastic-expiry'  # Mitigates burst attacks
+    RATELIMIT_STRATEGY = 'fixed-window-elastic-expiry'
 
 
 class ProductionConfig(Config):
@@ -52,5 +53,7 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    RATELIMIT_ENABLED = False
     TESTING = True
+    SERVER_NAME = 'localhost:8080'
+    RATELIMIT_ENABLED = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'

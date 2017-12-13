@@ -55,7 +55,8 @@ def create_app() -> Flask:
     db.init_app(app)
     login.init_app(app)
     limiter.init_app(app)
-    
+    limiter.enabled = app.config.get('RATELIMIT_ENABLED', True)
+
     set_error_handlers(app)
     register_blueprints(app)
 
