@@ -1,0 +1,116 @@
+interactions:
+- request:
+    body: code=JKkyDwK6xpTqK7Pf8x&grant_type=authorization_code
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['53']
+      Content-Type: [application/x-www-form-urlencoded]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: POST
+    uri: https://bitbucket.org/site/oauth2/access_token
+  response:
+    body: {string: '{"access_token": "gKOMkpAxCezus_PdaTcdMJapwknnjQ_BdEFfDOB7hmZxeYybn9Tyuh3gpeDAmXOSOe-3C6q_w6EA3-vuKw==",
+        "scopes": "webhook pullrequest project team account", "expires_in": 3600,
+        "refresh_token": "hXTgSk2vMf8ZKqTzhD", "token_type": "bearer"}'}
+    headers:
+      Cache-Control: ['no-cache, no-store, must-revalidate, max-age=0']
+      Connection: [keep-alive]
+      Content-Language: [en]
+      Content-Length: ['241']
+      Content-Type: [application/json]
+      Date: ['Thu, 14 Dec 2017 02:09:06 GMT']
+      ETag: ['"9385a9064b35214488d3d3b68d414caa"']
+      Expires: ['Thu, 14 Dec 2017 02:09:06 GMT']
+      Last-Modified: ['Thu, 14 Dec 2017 02:09:06 GMT']
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: ['Accept-Language, Cookie']
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Render-Time: ['0.0343978404999']
+      X-Request-Count: ['498']
+      X-Served-By: [app-172]
+      X-Static-Version: [479c7381ee50]
+      X-Version: [479c7381ee50]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: GET
+    uri: https://api.bitbucket.org/2.0/user
+  response:
+    body: {string: '{"username": "armonaut", "website": null, "display_name": "Armonaut",
+        "account_id": "557058:124692a0-29e0-4784-92ee-87f534c17ec0", "links": {"hooks":
+        {"href": "https://api.bitbucket.org/2.0/users/armonaut/hooks"}, "self": {"href":
+        "https://api.bitbucket.org/2.0/users/armonaut"}, "repositories": {"href":
+        "https://api.bitbucket.org/2.0/repositories/armonaut"}, "html": {"href": "https://bitbucket.org/armonaut/"},
+        "followers": {"href": "https://api.bitbucket.org/2.0/users/armonaut/followers"},
+        "avatar": {"href": "https://bitbucket.org/account/armonaut/avatar/32/"}, "following":
+        {"href": "https://api.bitbucket.org/2.0/users/armonaut/following"}, "snippets":
+        {"href": "https://api.bitbucket.org/2.0/snippets/armonaut"}}, "created_on":
+        "2017-10-17T23:35:54.832662+00:00", "is_staff": false, "location": null, "type":
+        "user", "uuid": "{a5e23202-edbf-4828-818a-1c00f36c1097}"}'}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['875']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Thu, 14 Dec 2017 02:09:06 GMT']
+      ETag: ['"4c7564d455753f091f047868aa4e9f33"']
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: [Authorization]
+      X-Accepted-OAuth-Scopes: [account]
+      X-Content-Type-Options: [nosniff]
+      X-Credential-Type: [oauth2]
+      X-Frame-Options: [SAMEORIGIN]
+      X-OAuth-Scopes: ['webhook, pullrequest, project, team, account']
+      X-Render-Time: ['0.0315959453583']
+      X-Request-Count: ['488']
+      X-Served-By: [app-143]
+      X-Static-Version: [479c7381ee50]
+      X-Version: [479c7381ee50]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: GET
+    uri: https://api.bitbucket.org/2.0/user/emails
+  response:
+    body: {string: '{"pagelen": 10, "values": [{"is_primary": true, "is_confirmed":
+        true, "type": "email", "email": "armonaut@protonmail.com", "links": {"self":
+        {"href": "https://api.bitbucket.org/2.0/user/emails/armonaut@protonmail.com"}}}],
+        "page": 1, "size": 1}'}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['244']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Thu, 14 Dec 2017 02:09:07 GMT']
+      ETag: ['"926bdddde938bc5c74c70deacaef299a"']
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: [Authorization]
+      X-Accepted-OAuth-Scopes: [email]
+      X-Content-Type-Options: [nosniff]
+      X-Credential-Type: [oauth2]
+      X-Frame-Options: [SAMEORIGIN]
+      X-OAuth-Scopes: ['webhook, pullrequest, project, team, account']
+      X-Render-Time: ['0.0318188667297']
+      X-Request-Count: ['536']
+      X-Served-By: [app-143]
+      X-Static-Version: [479c7381ee50]
+      X-Version: [479c7381ee50]
+    status: {code: 200, message: OK}
+version: 1

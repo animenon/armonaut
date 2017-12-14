@@ -21,6 +21,8 @@ def vcr_config():
 
 @pytest.fixture
 def vcr_cassette_path(request, vcr_cassette_name):
+    if vcr_cassette_name.endswith(']') and '[' in vcr_cassette_name:
+        vcr_cassette_name = vcr_cassette_name[:vcr_cassette_name.rfind('[')]
     return os.path.join('tests', 'cassettes', request.module.__name__[6:], vcr_cassette_name)
 
 

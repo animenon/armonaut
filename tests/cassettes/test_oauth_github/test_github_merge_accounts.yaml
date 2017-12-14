@@ -1,0 +1,286 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['0']
+      User-Agent: [Armonaut/1.0.0b1]
+    method: POST
+    uri: https://github.com/login/oauth/access_token?client_id=7c9836e4b56c5cd6d852&client_secret=CLIENT_SECRET&code=c3cccd15fe3dbbaa5d7d&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgithub%2Fcallback
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAx3LywrCMBAF0H+ZdRbqhNbkZ0qauVfER8qkLor475ZuD5yvlFrR+7S2B96SZRgv
+        VNo5KTgyJdowR1UY0skIRrsqGVWCHGVatwX7m1Ecvmuv7QBHsdz8FhxLC58Oz3iV+1N+fxWSDth0
+        AAAA
+    headers:
+      Cache-Control: [no-cache]
+      Content-Encoding: [gzip]
+      Content-Security-Policy: ['default-src ''none''; base-uri ''self''; block-all-mixed-content;
+          child-src render.githubusercontent.com; connect-src ''self'' uploads.github.com
+          status.github.com collector.githubapp.com api.github.com www.google-analytics.com
+          github-cloud.s3.amazonaws.com github-production-repository-file-5c1aeb.s3.amazonaws.com
+          github-production-upload-manifest-file-7fdce7.s3.amazonaws.com github-production-user-asset-6210df.s3.amazonaws.com
+          wss://live.github.com; font-src assets-cdn.github.com; form-action ''self''
+          github.com gist.github.com; frame-ancestors ''none''; img-src ''self'' data:
+          assets-cdn.github.com identicons.github.com collector.githubapp.com github-cloud.s3.amazonaws.com
+          *.githubusercontent.com; media-src ''none''; script-src assets-cdn.github.com;
+          style-src ''unsafe-inline'' assets-cdn.github.com']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Wed, 13 Dec 2017 03:12:03 GMT']
+      Expect-CT: ['max-age=2592000, report-uri="https://api.github.com/_private/browser/errors"']
+      Public-Key-Pins: [max-age=0; pin-sha256="WoiWRyIOVNa9ihaBciRSC7XHjliYS9VwUGOIud4PB18=";
+          pin-sha256="RRM1dGqnDFsCJXBTHky16vi1obOlCgFFn/yOhI/y+ho="; pin-sha256="k2v657xBsOVe1PQRwOsHsw3bsGT2VzIqz5K+59sNQws=";
+          pin-sha256="K87oWBWM9UZfyddvDfoxL+8lpNyoUB2ptGtn0fv6G2Q="; pin-sha256="IQBnNBEiFuhj+8x6X8XLgh01V9Ic5/V3IRQLNFFc7v4=";
+          pin-sha256="iie1VXtL7HzAMF+/PVPR9xzT80kQxdZeJ+zduCB3uj0="; pin-sha256="LvRiGEjRqfzurezaWuj8Wie2gyHMrW5Q06LspMnox7A=";
+          includeSubDomains]
+      Server: [GitHub.com]
+      Status: [200 OK]
+      Strict-Transport-Security: [max-age=31536000; includeSubdomains; preload]
+      Vary: [X-PJAX]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [deny]
+      X-GitHub-Request-Id: ['C70A:074B:DB73E4:1916C17:5A309A83']
+      X-Request-Id: [ecb824fd716d80e845d52a379e34fde9]
+      X-Runtime: ['0.031764']
+      X-Runtime-rack: ['0.037254']
+      X-UA-Compatible: ['IE=Edge,chrome=1']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: GET
+    uri: https://api.github.com/user
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA6WUwWrbQBCGX2XZs21ZSlKnglJKCaUQt4Wkl17MarW2pqx2xe5KxjV5gUJKj7n1
+        DfJsfYT+KzkmMTkU52RrNP+nf3Z2Zsu1XZHhOb9SoZqTrITSl8J5a/iIU8nz9PwsfT09mY246EQQ
+        btE6jfQqhMbnSTIE/XSyolC1ReuVk9YEZcJE2jppkwf92+7NKZArt8NENkfgANfQjjTIgfPJc9aq
+        UOsDK4ODXvecYmm1tmvwDiv4r08mezk8D//JrF6Cgnyb2FApHCnKvImHQz4caa+XbpP4s6Aywjya
+        5VR5nMWdGAbXBt62iVON7alt4aWjJpA1R1p9ggDSupUw9EO8AAmEBymaPNJULwVCdbi6RzIG7TZp
+        HHVCbuJxOSUVdejCS7gHEGDDplEYn6+4N7EnFNRClHWc46XQXo24EXVMiHPA5hO2n2gMRyPMBq/e
+        FYUNgX00cgJEgTXwaKrDmkJQrp+lZhMqKzzF09FW9m1C6pyMUaKxmvyIzT/Fo6sFYTWYVusRr8gp
+        UWiYGJ4LshB9iSyDOyrY3z+/b9ml7ZRjdsk+wK9H7Nc9+4y7VSMFT3c/2UVtvxN7b42x5L1qHcK3
+        9+zKLsNaOMUuDNaXAoQMwyyxWpUkhWal6kgqRMvWB7eJNTZtoUkuhk7n2fk+0s8Oz7OHwcaOwN47
+        eTTnPMf+k6gooJUioJJsmr4aT0/H6ew6S5GcZ9k3fKNtyic5s3GajdP0Oj3Ls1mfc/MPJnQZEXMF
+        AAA=
+    headers:
+      Access-Control-Allow-Origin: ['*']
+      Access-Control-Expose-Headers: ['ETag, Link, Retry-After, X-GitHub-OTP, X-RateLimit-Limit,
+          X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes,
+          X-Poll-Interval']
+      Cache-Control: ['private, max-age=60, s-maxage=60']
+      Content-Encoding: [gzip]
+      Content-Security-Policy: [default-src 'none']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Wed, 13 Dec 2017 03:12:04 GMT']
+      ETag: [W/"5ade39d38cd47a94993696071afb620f"]
+      Last-Modified: ['Mon, 11 Dec 2017 15:27:22 GMT']
+      Server: [GitHub.com]
+      Status: [200 OK]
+      Strict-Transport-Security: [max-age=31536000; includeSubdomains; preload]
+      Vary: ['Accept, Authorization, Cookie, X-GitHub-OTP']
+      X-Accepted-OAuth-Scopes: ['']
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [deny]
+      X-GitHub-Media-Type: [github.v3]
+      X-GitHub-Request-Id: ['C70B:29A78:1B56EEB:346E1A4:5A309A83']
+      X-OAuth-Client-Id: [7c9836e4b56c5cd6d852]
+      X-OAuth-Scopes: ['read:org, repo, user:email']
+      X-RateLimit-Limit: ['5000']
+      X-RateLimit-Remaining: ['4999']
+      X-RateLimit-Reset: ['1513138324']
+      X-Runtime-rack: ['0.046555']
+      X-XSS-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['0']
+      User-Agent: [Armonaut/1.0.0b1]
+    method: POST
+    uri: https://gitlab.com/oauth/token?client_id=51995f5ca67470bd010e27a7379aa62bc297e4d8f425f6763b626d3a721ced8b&client_secret=CLIENT_SECRET&code=6be7d9f95c2edb413fdf0c5a88bbe071460ce62a6df6a77a17177e98c7146456&grant_type=authorization_code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgitlab%2Fcallback
+  response:
+    body: {string: '{"access_token":"bdc23b5a03749776f98b12860377783c3ebbc8026dd26f8198b8f540bdda3a87","token_type":"bearer","refresh_token":"85b299f322d1f73b37a6d5526666059651ba0a7121a0befc22ddc86979e1b46c","scope":"api","created_at":1513216562}'}
+    headers:
+      Cache-Control: [no-store]
+      Content-Length: ['226']
+      Content-Security-Policy: ['object-src ''none''; script-src ''self'' ''unsafe-inline''
+          ''unsafe-eval'' https://assets.gitlab-static.net https://www.google.com/recaptcha/
+          https://www.gstatic.com/recaptcha/; style-src ''self'' ''unsafe-inline''
+          https://assets.gitlab-static.net; img-src * data: blob:; frame-src ''self''
+          https://www.google.com/recaptcha/; frame-ancestors ''self''; connect-src
+          ''self'' https://assets.gitlab-static.net wss://gitlab.com https://sentry.gitlap.com
+          https://customers.gitlab.com; report-uri https://sentry-infra.gitlap.com/api/3/csp-report/?sentry_key=a664fdde83424b43a991f25fa7c78987']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Thu, 14 Dec 2017 01:56:02 GMT']
+      Etag: [W/"34f62136fd43303e4174fc547e678ebc"]
+      Pragma: [no-cache]
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [78704512-3df2-422f-a3c8-8b27487a49d0]
+      X-Runtime: ['0.101690']
+      X-Xss-Protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: GET
+    uri: https://gitlab.com/api/v4/user
+  response:
+    body: {string: '{"id":1195202,"name":"Seth Michael Larson","username":"SethMichaelLarson","state":"active","avatar_url":"https://secure.gravatar.com/avatar/6444b535859d4afc5916092ca57a2be6?s=80&d=identicon","web_url":"https://gitlab.com/SethMichaelLarson","created_at":"2017-03-16T17:33:17.781Z","bio":"","location":"Minneapolis,
+        MN","skype":"","linkedin":"","twitter":"https://twitter.com/pythoasis","website_url":"","organization":"Abbott
+        Laboratories","last_sign_in_at":"2017-12-12T01:27:59.284Z","confirmed_at":"2017-03-16T17:34:12.185Z","last_activity_on":"2017-12-12","email":"sethmichaellarson@protonmail.com","theme_id":null,"color_scheme_id":1,"projects_limit":100000,"current_sign_in_at":"2017-12-14T01:55:15.617Z","identities":[{"provider":"bitbucket","extern_uid":"SethMichaelLarson"},{"provider":"github","extern_uid":"18519037"},{"provider":"twitter","extern_uid":"722557924011184128"}],"can_create_group":true,"can_create_project":true,"two_factor_enabled":false,"external":false,"shared_runners_minutes_limit":2000}'}
+    headers:
+      Cache-Control: ['max-age=0, private, must-revalidate']
+      Content-Length: ['1015']
+      Content-Type: [application/json]
+      Date: ['Thu, 14 Dec 2017 01:56:02 GMT']
+      Etag: [W/"3c8597dcd97ea35ff1455765e545fa05"]
+      RateLimit-Limit: ['600']
+      RateLimit-Observed: ['1']
+      RateLimit-Remaining: ['599']
+      RateLimit-Reset: ['1513216622']
+      RateLimit-ResetTime: ['Fri, 14 Dec 2017 01:57:02 GMT']
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000]
+      Vary: [Origin]
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Request-Id: [b27b31dc-8b68-422e-8642-9d8f40b27608]
+      X-Runtime: ['0.089179']
+    status: {code: 200, message: OK}
+- request:
+    body: code=JKkyDwK6xpTqK7Pf8x&grant_type=authorization_code
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['53']
+      Content-Type: [application/x-www-form-urlencoded]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: POST
+    uri: https://bitbucket.org/site/oauth2/access_token
+  response:
+    body: {string: '{"access_token": "gKOMkpAxCezus_PdaTcdMJapwknnjQ_BdEFfDOB7hmZxeYybn9Tyuh3gpeDAmXOSOe-3C6q_w6EA3-vuKw==",
+        "scopes": "webhook pullrequest project team account", "expires_in": 3600,
+        "refresh_token": "hXTgSk2vMf8ZKqTzhD", "token_type": "bearer"}'}
+    headers:
+      Cache-Control: ['no-cache, no-store, must-revalidate, max-age=0']
+      Connection: [keep-alive]
+      Content-Language: [en]
+      Content-Length: ['241']
+      Content-Type: [application/json]
+      Date: ['Thu, 14 Dec 2017 02:09:06 GMT']
+      ETag: ['"9385a9064b35214488d3d3b68d414caa"']
+      Expires: ['Thu, 14 Dec 2017 02:09:06 GMT']
+      Last-Modified: ['Thu, 14 Dec 2017 02:09:06 GMT']
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: ['Accept-Language, Cookie']
+      X-Content-Type-Options: [nosniff]
+      X-Frame-Options: [SAMEORIGIN]
+      X-Render-Time: ['0.0343978404999']
+      X-Request-Count: ['498']
+      X-Served-By: [app-172]
+      X-Static-Version: [479c7381ee50]
+      X-Version: [479c7381ee50]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: GET
+    uri: https://api.bitbucket.org/2.0/user
+  response:
+    body: {string: '{"username": "armonaut", "website": null, "display_name": "Armonaut",
+        "account_id": "557058:124692a0-29e0-4784-92ee-87f534c17ec0", "links": {"hooks":
+        {"href": "https://api.bitbucket.org/2.0/users/armonaut/hooks"}, "self": {"href":
+        "https://api.bitbucket.org/2.0/users/armonaut"}, "repositories": {"href":
+        "https://api.bitbucket.org/2.0/repositories/armonaut"}, "html": {"href": "https://bitbucket.org/armonaut/"},
+        "followers": {"href": "https://api.bitbucket.org/2.0/users/armonaut/followers"},
+        "avatar": {"href": "https://bitbucket.org/account/armonaut/avatar/32/"}, "following":
+        {"href": "https://api.bitbucket.org/2.0/users/armonaut/following"}, "snippets":
+        {"href": "https://api.bitbucket.org/2.0/snippets/armonaut"}}, "created_on":
+        "2017-10-17T23:35:54.832662+00:00", "is_staff": false, "location": null, "type":
+        "user", "uuid": "{a5e23202-edbf-4828-818a-1c00f36c1097}"}'}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['875']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Thu, 14 Dec 2017 02:09:06 GMT']
+      ETag: ['"4c7564d455753f091f047868aa4e9f33"']
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: [Authorization]
+      X-Accepted-OAuth-Scopes: [account]
+      X-Content-Type-Options: [nosniff]
+      X-Credential-Type: [oauth2]
+      X-Frame-Options: [SAMEORIGIN]
+      X-OAuth-Scopes: ['webhook, pullrequest, project, team, account']
+      X-Render-Time: ['0.0315959453583']
+      X-Request-Count: ['488']
+      X-Served-By: [app-143]
+      X-Static-Version: [479c7381ee50]
+      X-Version: [479c7381ee50]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      User-Agent: [Armonaut/1.0.0b1]
+      authorization: [ACCESS_TOKEN]
+    method: GET
+    uri: https://api.bitbucket.org/2.0/user/emails
+  response:
+    body: {string: '{"pagelen": 10, "values": [{"is_primary": true, "is_confirmed":
+        true, "type": "email", "email": "armonaut@protonmail.com", "links": {"self":
+        {"href": "https://api.bitbucket.org/2.0/user/emails/armonaut@protonmail.com"}}}],
+        "page": 1, "size": 1}'}
+    headers:
+      Connection: [keep-alive]
+      Content-Length: ['244']
+      Content-Type: [application/json; charset=utf-8]
+      Date: ['Thu, 14 Dec 2017 02:09:07 GMT']
+      ETag: ['"926bdddde938bc5c74c70deacaef299a"']
+      Server: [nginx]
+      Strict-Transport-Security: [max-age=31536000; includeSubDomains; preload]
+      Vary: [Authorization]
+      X-Accepted-OAuth-Scopes: [email]
+      X-Content-Type-Options: [nosniff]
+      X-Credential-Type: [oauth2]
+      X-Frame-Options: [SAMEORIGIN]
+      X-OAuth-Scopes: ['webhook, pullrequest, project, team, account']
+      X-Render-Time: ['0.0318188667297']
+      X-Request-Count: ['536']
+      X-Served-By: [app-143]
+      X-Static-Version: [479c7381ee50]
+      X-Version: [479c7381ee50]
+    status: {code: 200, message: OK}
+version: 1
