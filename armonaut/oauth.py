@@ -52,7 +52,7 @@ def github_oauth_callback():
                                'client_secret': current_app.config.get('GITHUB_OAUTH_SECRET'),
                                'redirect_uri': url_for('oauth.github_oauth_callback', _external=True),
                                'code': request.args.get('code')}) as r:
-        if not r.ok:
+        if not r.ok:  # pragma: no cover
             flash('Couldn\'t authenticate with GitHub', 'danger')
             return redirect(url_for('index.home'))
         access_token = r.json()['access_token']
@@ -62,7 +62,7 @@ def github_oauth_callback():
                       headers={'Accept': 'application/json',
                                'User-Agent': f'Armonaut/{__version__}',
                                'Authorization': f'token {access_token}'}) as r:
-        if not r.ok:
+        if not r.ok:  # pragma: no cover
             flash('Couldn\'t authenticate with GitHub', 'danger')
             return redirect(url_for('index.home'))
         github_id = r.json()['id']
@@ -113,7 +113,7 @@ def bitbucket_oauth_callback():
                                 'User-Agent': f'Armonaut/{__version__}'},
                        data={'code': request.args.get('code'),
                              'grant_type': 'authorization_code'}) as r:
-        if not r.ok:
+        if not r.ok:  # pragma: no cover
             flash('Couldn\'t authenticate with BitBucket', 'danger')
             return redirect(url_for('index.home'))
         access_token = r.json()['access_token']
@@ -124,7 +124,7 @@ def bitbucket_oauth_callback():
                       headers={'Accept': 'application/json',
                                'User-Agent': f'Armonaut/{__version__}',
                                'Authorization': f'Bearer {access_token}'}) as r:
-        if not r.ok:
+        if not r.ok:  # pragma: no cover
             flash('Couldn\'t authenticate with BitBucket', 'danger')
             return redirect(url_for('index.home'))
         bitbucket_id = r.json()['account_id']
@@ -134,7 +134,7 @@ def bitbucket_oauth_callback():
                       headers={'Accept': 'application/json',
                                'User-Agent': f'Armonaut/{__version__}',
                                'Authorization': f'Bearer {access_token}'}) as r:
-        if not r.ok:
+        if not r.ok:  # pragma: no cover
             flash('Couldn\'t authenticate with BitBucket', 'danger')
             return redirect(url_for('index.home'))
         bitbucket_email = None
@@ -193,7 +193,7 @@ def gitlab_oauth_callback():
                                'client_id':  current_app.config.get('GITLAB_OAUTH_ID'),
                                'client_secret': current_app.config.get('GITLAB_OAUTH_SECRET'),
                                'redirect_uri': url_for('oauth.gitlab_oauth_callback', _external=True)}) as r:
-        if not r.ok:
+        if not r.ok:  # pragma: no cover
             flash('Couldn\'t authenticate with GitLab', 'danger')
             return redirect(url_for('index.home'))
         access_token = r.json()['access_token']
@@ -204,7 +204,7 @@ def gitlab_oauth_callback():
                       headers={'Accept': 'application/json',
                                'User-Agent': f'Armonaut/{__version__}',
                                'Authorization': f'Bearer {access_token}'}) as r:
-        if not r.ok:
+        if not r.ok:  # pragma: no cover
             flash('Couldn\'t authenticate with GitLab', 'danger')
             return redirect(url_for('index.home'))
         gitlab_id = r.json()['id']
