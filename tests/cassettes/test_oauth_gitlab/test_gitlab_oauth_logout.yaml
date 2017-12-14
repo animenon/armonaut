@@ -8,7 +8,7 @@ interactions:
       Content-Length: ['0']
       User-Agent: [Armonaut/1.0.0b1]
     method: POST
-    uri: https://gitlab.com/oauth/token?client_id=664418d9f3984ef15a998bde3433a0704a2eee8303b7fbb7a0f8ff36372d286f&client_secret=CLIENT_SECRET&code=6be7d9f95c2edb413fdf0c5a88bbe071460ce62a6df6a77a17177e98c7146456&grant_type=authorization_code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgitlab%2Fcallback
+    uri: https://gitlab.com/oauth/token?client_id=51995f5ca67470bd010e27a7379aa62bc297e4d8f425f6763b626d3a721ced8b&client_secret=CLIENT_SECRET&code=6be7d9f95c2edb413fdf0c5a88bbe071460ce62a6df6a77a17177e98c7146456&grant_type=authorization_code&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Foauth%2Fgitlab%2Fcallback
   response:
     body: {string: '{"access_token":"bdc23b5a03749776f98b12860377783c3ebbc8026dd26f8198b8f540bdda3a87","token_type":"bearer","refresh_token":"85b299f322d1f73b37a6d5526666059651ba0a7121a0befc22ddc86979e1b46c","scope":"api","created_at":1513216562}'}
     headers:
